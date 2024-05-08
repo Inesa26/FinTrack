@@ -3,8 +3,8 @@ using FinTrack.Application.Responses;
 using MediatR;
 
 namespace FinTrack.Application.Icons.Commands;
-public record DeleteIcon(int IconId) : IRequest<IconDto>;
-public class RemoveIconHandler : IRequestHandler<DeleteIcon, IconDto>
+
+public class RemoveIconHandler : IRequestHandler<DeleteIconCommand, IconDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public class RemoveIconHandler : IRequestHandler<DeleteIcon, IconDto>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IconDto> Handle(DeleteIcon request, CancellationToken cancellationToken)
+    public async Task<IconDto> Handle(DeleteIconCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -25,7 +25,7 @@ public class RemoveIconHandler : IRequestHandler<DeleteIcon, IconDto>
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return IconDto.FromCategory(deletedIcon);
+            return IconDto.FromIcon(deletedIcon);
         }
         catch (Exception)
         {

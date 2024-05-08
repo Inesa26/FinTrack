@@ -2,15 +2,15 @@
 {
     public class Transaction : Entity
     {
-        public decimal Amount { get; init; }
-        public DateTime Date { get; init; }
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public virtual Category? Category { get; set; }
         public int AccountId { get; init; }
         public virtual Account? Account { get; set; }
 
-        public Transaction(int id, int accountId, decimal amount, DateTime date, string description, int categoryId) 
+        public Transaction(int accountId, decimal amount, DateTime date, string description, int categoryId) 
         {
             AccountId = accountId;
             Amount = amount;

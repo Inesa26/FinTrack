@@ -5,9 +5,7 @@ using FinTrack.Domain.Model;
 using MediatR;
 
 namespace FinTrack.Application.Categories.Queries;
-
-public record GetCategoryById(int CategoryId) : IRequest<CategoryDto>;
-public class GetCategoryByIdHandler : IRequestHandler<GetCategoryById, CategoryDto>
+public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -16,11 +14,11 @@ public class GetCategoryByIdHandler : IRequestHandler<GetCategoryById, CategoryD
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CategoryDto> Handle(GetCategoryById request, CancellationToken cancellationToken)
+    public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
        
             var existingCategory = (await _unitOfWork.CategoryRepository.Get(request.CategoryId)) ??
-                throw new InvalidOperationException($"Category with id'{request.CategoryId}' was not found.");
+                throw new InvalidOperationException($"Category with ID '{request.CategoryId}' was not found.");
 
             return CategoryDto.FromCategory(existingCategory);
     }

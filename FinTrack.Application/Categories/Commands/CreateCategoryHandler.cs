@@ -6,8 +6,7 @@ using MediatR;
 
 namespace FinTrack.Application.Categories.Commands;
 
-public record CreateCategory(string Title, int IconId, TransactionType Type) : IRequest<CategoryDto>;
-public class CreateCategoryHandler : IRequestHandler<CreateCategory, CategoryDto>
+public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -16,7 +15,7 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategory, CategoryDto
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CategoryDto> Handle(CreateCategory request, CancellationToken cancellationToken)
+    public async Task<CategoryDto> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -28,6 +27,8 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategory, CategoryDto
             {
                 throw new InvalidOperationException($"Category '{request.Title}' already exists.");
             }
+            var existingIcon = (await _unitOfWork.IconRepository.Get(request.IconId)) ??
+                throw new InvalidOperationException($"Icon with ID '{request.IconId}' was not found.");
 
             Category category = new(request.Title, request.Type, request.IconId);
 

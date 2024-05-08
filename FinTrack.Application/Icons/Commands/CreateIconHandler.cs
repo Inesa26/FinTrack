@@ -4,8 +4,7 @@ using FinTrack.Domain.Model;
 using MediatR;
 
 namespace FinTrack.Application.Icons.Commands;
-public record CreateIcon(string FilePath) : IRequest<IconDto>;
-public class CreateIconHandler : IRequestHandler<CreateIcon, IconDto>
+public class CreateIconHandler : IRequestHandler<CreateIconCommand, IconDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +13,7 @@ public class CreateIconHandler : IRequestHandler<CreateIcon, IconDto>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IconDto> Handle(CreateIcon request, CancellationToken cancellationToken)
+    public async Task<IconDto> Handle(CreateIconCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -25,7 +24,7 @@ public class CreateIconHandler : IRequestHandler<CreateIcon, IconDto>
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return IconDto.FromCategory(createdIcon);
+            return IconDto.FromIcon(createdIcon);
         }
         catch (Exception)
         {

@@ -1,11 +1,9 @@
 ﻿using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
-using FinTrack.Domain.Enum;
 using MediatR;
 
 namespace FinTrack.Application.Categories.Commands;
-public record UpdateCategory(int CategoryId, string Title, int IconId, TransactionType Type) : IRequest<CategoryDto>;
-public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, CategoryDto>
+public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryDto>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +12,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, CategoryDto
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<CategoryDto> Handle(UpdateCategory request, CancellationToken cancellationToken)
+    public async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -25,7 +23,7 @@ public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, CategoryDto
             var existingIcon = (await _unitOfWork.IconRepository.Get(request.IconId)) ??
                 throw new InvalidOperationException($"Icon with ID '{request.IconId}' was not found.");
 
-            existingCategory.Icon = existingIcon;
+            existingCategory.IconId = request.IconId;
             existingCategory.Title = request.Title;
             existingCategory.Type = request.Type;
 

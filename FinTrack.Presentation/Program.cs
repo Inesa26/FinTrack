@@ -27,9 +27,9 @@ static IMediator Init()
 //Adding new icons
 try
 {
-    var icon1 = await mediator.Send(new CreateIcon("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon1.png"));
-    var icon2 = await mediator.Send(new CreateIcon("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon2.png"));
-    var icon3 = await mediator.Send(new CreateIcon("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon3.png"));
+    var icon1 = await mediator.Send(new CreateIconHandler("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon1.png"));
+    var icon2 = await mediator.Send(new CreateIconHandler("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon2.png"));
+    var icon3 = await mediator.Send(new CreateIconHandler("D:\\Amdaris_Internship\\FinTrack\\Icons\\icon3.png"));
 }
 catch (FileNotFoundException ex)
 {
@@ -39,7 +39,7 @@ catch (FileNotFoundException ex)
 //Updating an existing Icon
 try
 {
-    var icon1 = await mediator.Send(new UpdateIcon(4, "D:\\Amdaris_Internship\\FinTrack\\Icons\\icon2.png"));
+    var icon1 = await mediator.Send(new UpdateIconHandler(4, "D:\\Amdaris_Internship\\FinTrack\\Icons\\icon2.png"));
 }
 catch (FileNotFoundException ex)
 {
@@ -53,7 +53,7 @@ catch (InvalidOperationException ex)
 //Removing an existing icon
 try
 {
-    var icon1 = await mediator.Send(new DeleteIcon(4));
+    var icon1 = await mediator.Send(new DeleteIconHandler(4));
 }
 catch (InvalidOperationException ex)
 {
@@ -63,7 +63,7 @@ catch (InvalidOperationException ex)
 // Adding a new category
 try
 {
-    var category1 = await mediator.Send(new CreateCategory("Transport", 3, TransactionType.Expense));
+    var category1 = await mediator.Send(new CreateCategoryCommand("Transport", 3, TransactionType.Expense));
     Console.WriteLine(category1);
 }
 catch (InvalidOperationException ex)
@@ -74,7 +74,7 @@ catch (InvalidOperationException ex)
 //Update a category
 try
 {
-    var category1 = await mediator.Send(new UpdateCategory(1, "Transport", 1003, TransactionType.Expense));
+    var category1 = await mediator.Send(new UpdateCategoryCommand(1, "Transport", 1003, TransactionType.Expense));
     Console.WriteLine(category1);
 }
 catch (InvalidOperationException ex)
@@ -85,7 +85,7 @@ catch (InvalidOperationException ex)
 //Delete existing category
 try
 {
-    var category1 = await mediator.Send(new DeleteCategory(3));
+    var category1 = await mediator.Send(new DeleteCategoryHandler(3));
     Console.WriteLine(category1);
 }
 catch (InvalidOperationException ex)
@@ -94,8 +94,8 @@ catch (InvalidOperationException ex)
 }
 
 //Get all categories
-var categories = await mediator.Send(new GetAllCategories());
+var categories = await mediator.Send(new GetAllCategoriesHandler());
 categories.ForEach(category => Console.WriteLine(category));
 
 //Get category by id
-Console.WriteLine(await mediator.Send(new GetCategoryById(6)));
+Console.WriteLine(await mediator.Send(new GetCategoryByIdHandler(6)));

@@ -12,7 +12,7 @@ namespace FinTrack.Application.Responses
         public int Id { get; init; }
         byte[] Data { get; init; }
 
-        public static IconDto FromCategory(Icon icon)
+        public static IconDto FromIcon(Icon icon)
         {
             return new IconDto
             {
