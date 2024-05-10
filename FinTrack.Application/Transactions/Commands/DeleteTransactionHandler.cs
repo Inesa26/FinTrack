@@ -1,15 +1,21 @@
-﻿using FinTrack.Application.Abstractions;
+﻿using AutoMapper;
+using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Transactions.Commands;
 public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand, TransactionDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<DeleteTransactionHandler> _logger;
+    private readonly IMapper _mapper;
 
-    public DeleteTransactionHandler(IUnitOfWork unitOfWork)
+    public DeleteTransactionHandler(IUnitOfWork unitOfWork, ILogger<DeleteTransactionHandler> logger, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<TransactionDto> Handle(DeleteTransactionCommand request, CancellationToken cancellationToken)
@@ -24,12 +30,14 @@ public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return TransactionDto.FromTransaction(deletedTransaction);
+            _logger.LogInformation("Transaction with ID {TransactionId} removed successfully", request.TransactionId);
+            return _mapper.Map<TransactionDto>(request);
         }
 
         catch (Exception)
         {
             await _unitOfWork.RollbackTransactionAsync();
+            _logger.LogError("Failed to remove transaction with ID {TransactionId}", request.TransactionId);
             throw;
         }
     }

@@ -1,14 +1,9 @@
 ﻿using FinTrack.Application.Responses;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinTrack.Application.Transactions.Commands
 {
-    public class CreateTransactionCommand: IRequest<TransactionDto>
+    public class CreateTransactionCommand : IRequest<TransactionDto>
     {
         public CreateTransactionCommand(decimal amount, DateTime date, string description, int categoryId)
         {

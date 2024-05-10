@@ -14,11 +14,20 @@
         public async Task Invoke(HttpContext httpContext)
         {
             var start = DateTime.UtcNow;
-            await _next.Invoke(httpContext);
-            _logger.LogInformation($"Request {httpContext.Request.Path}: {(DateTime.UtcNow - start).TotalMilliseconds} ms");
+
+            try
+            {
+                await _next.Invoke(httpContext);
+            }
+            finally
+            {
+                var elapsedMilliseconds = (DateTime.UtcNow - start).TotalMilliseconds;
+                var requestPath = httpContext.Request.Path;
+
+                _logger.LogInformation("Request '{RequestPath}' processed in {ElapsedMilliseconds} ms", requestPath, elapsedMilliseconds);
+            }
         }
     }
-
 
     public static class TimingMiddlewareExtensions
     {

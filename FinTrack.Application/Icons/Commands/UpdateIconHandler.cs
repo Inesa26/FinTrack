@@ -1,15 +1,21 @@
-﻿using FinTrack.Application.Abstractions;
+﻿using AutoMapper;
+using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Icons.Commands;
 public class UpdateIconHandler : IRequestHandler<UpdateIconCommand, IconDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<RemoveIconHandler> _logger;
+    private readonly IMapper _mapper;
 
-    public UpdateIconHandler(IUnitOfWork unitOfWork)
+    public UpdateIconHandler(IUnitOfWork unitOfWork, ILogger<RemoveIconHandler> logger, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<IconDto> Handle(UpdateIconCommand request, CancellationToken cancellationToken)
@@ -27,11 +33,13 @@ public class UpdateIconHandler : IRequestHandler<UpdateIconCommand, IconDto>
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return IconDto.FromIcon(updatedIcon);
+            _logger.LogInformation("Icon with ID {IconId} created successfully.", updatedIcon.Id);
+           return _mapper.Map<IconDto>(updatedIcon);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
+            _logger.LogError(ex, "Failed to update icon with id {IconId}.", request.IconId);
             throw;
         }
     }
@@ -41,6 +49,7 @@ public class UpdateIconHandler : IRequestHandler<UpdateIconCommand, IconDto>
 
         if (!File.Exists(filePath))
         {
+            _logger.LogError("File '{FilePath}' not found.", filePath);
             throw new FileNotFoundException($"File '{filePath}' not found.");
         }
 

@@ -1,15 +1,21 @@
-﻿using FinTrack.Application.Abstractions;
+﻿using AutoMapper;
+using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Transactions.Commands;
 public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand, TransactionDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<UpdateTransactionHandler> _logger;
+    private readonly IMapper _mapper;
 
-    public UpdateTransactionHandler(IUnitOfWork unitOfWork)
+    public UpdateTransactionHandler(IUnitOfWork unitOfWork, ILogger<UpdateTransactionHandler> logger, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<TransactionDto> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken)
@@ -32,12 +38,14 @@ public class UpdateTransactionHandler : IRequestHandler<UpdateTransactionCommand
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return TransactionDto.FromTransaction(updatedTransaction);
+            _logger.LogInformation("Transaction with ID {TransactionId} updated successfully.", updatedTransaction.Id);
+            return _mapper.Map<TransactionDto>(updatedTransaction);
         }
 
-        catch (Exception)
+        catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
+            _logger.LogError(ex, "Failed to update transaction.");
             throw;
         }
     }

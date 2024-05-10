@@ -1,16 +1,22 @@
-﻿using FinTrack.Application.Abstractions;
+﻿using AutoMapper;
+using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using FinTrack.Domain.Model;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Icons.Commands;
 public class CreateIconHandler : IRequestHandler<CreateIconCommand, IconDto>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<CreateIconHandler> _logger;
+    private readonly IMapper _mapper;
 
-    public CreateIconHandler(IUnitOfWork unitOfWork)
+    public CreateIconHandler(IUnitOfWork unitOfWork, ILogger<CreateIconHandler> logger, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<IconDto> Handle(CreateIconCommand request, CancellationToken cancellationToken)
@@ -24,11 +30,13 @@ public class CreateIconHandler : IRequestHandler<CreateIconCommand, IconDto>
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();
 
-            return IconDto.FromIcon(createdIcon);
+            _logger.LogInformation("Icon with ID {IconId} created successfully.", createdIcon.Id);
+            return _mapper.Map<IconDto>(icon);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             await _unitOfWork.RollbackTransactionAsync();
+            _logger.LogError(ex, "Failed to create icon.");
             throw;
         }
     }
@@ -38,6 +46,7 @@ public class CreateIconHandler : IRequestHandler<CreateIconCommand, IconDto>
 
         if (!File.Exists(filePath))
         {
+            _logger.LogError("File '{FilePath}' not found.", filePath);
             throw new FileNotFoundException($"File '{filePath}' not found.");
         }
 
