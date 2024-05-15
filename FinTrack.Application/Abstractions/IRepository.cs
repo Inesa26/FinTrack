@@ -1,8 +1,6 @@
-﻿using FinTrack.Domain.Model;
-
-namespace FinTrack.Application.Abstractions
+﻿namespace FinTrack.Application.Abstractions
 {
-    public interface IRepository<T> where T : Entity
+    public interface IRepository<T>
     {
         Task<T> Add(T entity);
         Task<T> Delete(T enitity);

@@ -1,4 +1,4 @@
-﻿using FinTrack.Application.Abstractions;
+﻿/*using FinTrack.Application.Abstractions;
 using FinTrack.Application.Categories.Commands;
 using FinTrack.Application.Categories.Queries;
 using FinTrack.Application.Icons.Commands;
@@ -98,4 +98,4 @@ var categories = await mediator.Send(new GetAllCategoriesHandler());
 categories.ForEach(category => Console.WriteLine(category));
 
 //Get category by id
-Console.WriteLine(await mediator.Send(new GetCategoryByIdHandler(6)));
+Console.WriteLine(await mediator.Send(new GetCategoryByIdHandler(6)));*/

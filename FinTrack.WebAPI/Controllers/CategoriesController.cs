@@ -2,12 +2,14 @@ using FinTrack.Application.Categories.Commands;
 using FinTrack.Application.Categories.Queries;
 using FinTrack.Application.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinTrack.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/category")]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;

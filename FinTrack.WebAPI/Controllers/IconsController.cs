@@ -2,12 +2,14 @@
 using FinTrack.Application.Icons.Queries;
 using FinTrack.Application.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinTrack.WebAPI.Controllers
 {
     [Route("api/icon")]
     [ApiController]
+    [Authorize]
     public class IconsController : ControllerBase
     {
         private readonly IMediator _mediator;

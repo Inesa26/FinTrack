@@ -3,7 +3,10 @@ using FinTrack.Domain.Model;
 using FinTrack.Infrastructure;
 using FinTrack.Infrastructure.Data;
 using FinTrack.Infrastructure.Repositories;
+using FinTrack.Infrastructure.Services;
+using FinTrack.WebAPI.Extensions;
 using FinTrack.WebAPI.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +21,21 @@ builder.Services
     .AddSingleton<IRepository<Category>, RepositoryImpl<Category>>()
     .AddSingleton<IRepository<Icon>, RepositoryImpl<Icon>>()
     .AddSingleton<IRepository<Transaction>, RepositoryImpl<Transaction>>()
-    .AddSingleton<IUnitOfWork, UnitOfWork>()
+    .AddScoped<IUserRepository, UserRepository>()
+    .AddScoped<IUnitOfWork, UnitOfWork>()
+    .AddScoped<IIdentityService, IdentityService>()
+    .AddScoped<IUserAuthenticationService, UserAuthenticationService>()
+    .AddScoped<ITokenService, TokenService>()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IRepository<Category>).Assembly));
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+
+//Add ASP.NET Core Identity services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<FinTrackDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.RegisterAuthentication();
 
 // Register AutoMapper with the dependency injection container
 builder.Services.AddAutoMapper(typeof(IRepository<Category>).Assembly);
@@ -29,6 +45,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
@@ -43,6 +60,10 @@ app.UseCustomExceptionHandler();
 app.UseTimingLogger();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseRouting();
 
 app.UseAuthorization();
 

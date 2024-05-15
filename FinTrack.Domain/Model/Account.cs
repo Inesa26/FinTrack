@@ -4,13 +4,12 @@ namespace FinTrack.Domain.Model
 {
     public class Account : Entity
     {
-        
         public decimal Balance { get; set; }
-        public int UserId { get; set; }
-        public User? User { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser? User { get; set; }
         public virtual ICollection<Transaction>? Transactrions { get; set; }
 
-        public Account(int userId, decimal balance) 
+        public Account(string userId, decimal balance) 
         {
             UserId = userId;
             Balance = balance;

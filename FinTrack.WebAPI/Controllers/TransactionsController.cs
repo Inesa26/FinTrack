@@ -2,12 +2,14 @@
 using FinTrack.Application.Transactions.Commands;
 using FinTrack.Application.Transactions.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinTrack.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/transaction")]
+    [Authorize]
     public class TransactionsController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.Presentation", "FinTrack.Presentation\FinTrack.Presentation.csproj", "{DC1DF5DF-C85E-4132-86C7-234AB65C0F15}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.Domain", "FinTrack.Domain\FinTrack.Domain.csproj", "{1F58B5CB-66AE-4503-B5E5-304CA9643A9E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.Application", "FinTrack.Application\FinTrack.Application.csproj", "{9E02BD86-57E6-46F2-A5AB-291424D99543}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.Infrastructure", "FinTrack.Infrastructure\FinTrack.Infrastructure.csproj", "{D22F2F8E-CABC-47A7-AD70-F6426BD54374}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinTrack.WebAPI", "FinTrack.WebAPI\FinTrack.WebAPI.csproj", "{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.WebAPI", "FinTrack.WebAPI\FinTrack.WebAPI.csproj", "{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC1DF5DF-C85E-4132-86C7-234AB65C0F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC1DF5DF-C85E-4132-86C7-234AB65C0F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC1DF5DF-C85E-4132-86C7-234AB65C0F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC1DF5DF-C85E-4132-86C7-234AB65C0F15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F58B5CB-66AE-4503-B5E5-304CA9643A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F58B5CB-66AE-4503-B5E5-304CA9643A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F58B5CB-66AE-4503-B5E5-304CA9643A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
