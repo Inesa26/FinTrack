@@ -2,35 +2,34 @@
 using FinTrack.Application.Icons.Queries;
 using FinTrack.Application.Responses;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinTrack.WebAPI.Controllers
 {
     [Route("api/icon")]
     [ApiController]
-    [Authorize]
+
     public class IconsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<IconsController> _logger;
 
-        public IconsController(ILogger<IconsController> logger, IMediator mediator)
+        public IconsController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<IconDto>> GetIconById(int id)
         {
-            return await _mediator.Send(new GetIconByIdQuery(id));
+            var result = await _mediator.Send(new GetIconByIdQuery(id));
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<ActionResult<List<IconDto>>> GetAllIcons()
         {
-            return await _mediator.Send(new GetAllIconsQuery());
+            var result = await _mediator.Send(new GetAllIconsQuery());
+            return Ok(result);
         }
 
         [HttpPost]

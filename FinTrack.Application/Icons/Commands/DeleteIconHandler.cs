@@ -33,7 +33,7 @@ public class RemoveIconHandler : IRequestHandler<DeleteIconCommand, IconDto>
 
             _logger.LogInformation("Icon with ID {IconId} removed successfully.", request.IconId);
 
-            return _mapper.Map<IconDto>(request);
+            return _mapper.Map<IconDto>(deletedIcon);
         }
         catch (Exception ex)
         {

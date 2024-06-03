@@ -5,13 +5,13 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Transactions.Queries;
-public class GetTransacionByIdHandler : IRequestHandler<GetTransactionByIdQuery, TransactionDto>
+public class GetTransactionByIdHandler : IRequestHandler<GetTransactionByIdQuery, TransactionDto>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<GetTransacionByIdHandler> _logger;
+    private readonly ILogger<GetTransactionByIdHandler> _logger;
     private readonly IMapper _mapper;
 
-    public GetTransacionByIdHandler(IUnitOfWork unitOfWork, ILogger<GetTransacionByIdHandler> logger, IMapper mapper)
+    public GetTransactionByIdHandler(IUnitOfWork unitOfWork, ILogger<GetTransactionByIdHandler> logger, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;

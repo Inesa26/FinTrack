@@ -11,6 +11,8 @@ namespace FinTrack.Application.Profiles
             CreateMap<Transaction, TransactionDto>()
                .ForMember(dest => dest.Id,
                           src => src.MapFrom(x => x.Id))
+               .ForMember(dest => dest.AccountId,
+                          src => src.MapFrom(x => x.AccountId))
                .ForMember(dest => dest.Amount,
                           src => src.MapFrom(x => x.Amount))
                 .ForMember(dest => dest.Date,

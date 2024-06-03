@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-
-namespace FinTrack.Domain.Model
+﻿namespace FinTrack.Domain.Model
 {
     public class Account : Entity
     {
-        public decimal Balance { get; set; }
+        public decimal Balance { get; set; } = 0.00m;
         public string UserId { get; set; }
         public ApplicationUser? User { get; set; }
         public virtual ICollection<Transaction>? Transactrions { get; set; }
 
-        public Account(string userId, decimal balance) 
+        public Account(string userId)
         {
             UserId = userId;
-            Balance = balance;
         }
     }
 }

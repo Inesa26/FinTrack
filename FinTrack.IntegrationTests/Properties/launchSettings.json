@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FinTrack.IntegrationTests": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

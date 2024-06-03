@@ -7,5 +7,6 @@
         Task<T> Update(int id, T entity);
         Task<T?> Get(int id);
         Task<List<T>> GetAll();
+        Task<List<T>> Filter(Func<IQueryable<T>, IQueryable<T>> filterFunc);
     }
 }

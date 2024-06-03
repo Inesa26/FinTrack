@@ -18,13 +18,5 @@
             Description = description;
             CategoryId = categoryId;
         }
-        public Transaction(decimal amount, DateTime date, string description, int categoryId)
-        {
-           
-            Amount = amount;
-            Date = date;
-            Description = description;
-            CategoryId = categoryId;
-        }
     }
 }

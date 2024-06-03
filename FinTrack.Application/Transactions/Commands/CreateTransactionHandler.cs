@@ -29,7 +29,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             var existingCategory = (await _unitOfWork.CategoryRepository.Get(request.CategoryId)) ??
                 throw new InvalidOperationException($"Category with ID '{request.CategoryId}' was not found.");
 
-            Transaction transaction = new(request.Amount, request.Date, request.Description, request.CategoryId);
+            Transaction transaction = new(request.AccountId, request.Amount, request.Date, request.Description, request.CategoryId);
 
             var createdTransaction = await _unitOfWork.TransactionRepository.Add(transaction);
             await _unitOfWork.SaveAsync();

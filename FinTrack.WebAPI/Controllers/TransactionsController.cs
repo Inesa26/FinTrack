@@ -13,24 +13,31 @@ namespace FinTrack.WebAPI.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<TransactionsController> _logger;
 
-        public TransactionsController(ILogger<TransactionsController> logger, IMediator mediator)
+        public TransactionsController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionDto>> GetTransactionById(int id)
         {
-            return await _mediator.Send(new GetTransactionByIdQuery(id));
+            var result = await _mediator.Send(new GetTransactionByIdQuery(id));
+            return Ok(result);
         }
 
-        [HttpGet]
+       /* [HttpGet]
         public async Task<ActionResult<List<TransactionDto>>> GetAllTransactions()
         {
             return await _mediator.Send(new GetAllTransactionsQuery());
+        }*/
+       
+        [HttpGet]
+        public async Task<ActionResult<List<TransactionDto>>> GetTransactionsByAccountId([FromQuery] int accountId)
+        {
+            var query = new GetAllTransactionsQuery(accountId);
+            var result = await _mediator.Send(query); 
+            return Ok(result);
         }
 
         [HttpPost]

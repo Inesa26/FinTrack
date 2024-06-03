@@ -12,7 +12,7 @@ namespace FinTrack.Application.Profiles
                .ForMember(dest => dest.Id,
                           src => src.MapFrom(x => x.Id))
                .ForMember(dest => dest.Data,
-                          src => src.MapFrom(x => x.Data));
+                         src => src.MapFrom(x => x.Data));
         }
     }
 }

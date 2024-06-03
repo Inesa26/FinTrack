@@ -39,5 +39,12 @@ namespace FinTrack.Infrastructure.Repositories
         {
             return await _context.Set<T>().ToListAsync();
         }
+
+        public async Task<List<T>> Filter(Func<IQueryable<T>, IQueryable<T>> filterFunc)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            query = filterFunc(query);
+            return await query.ToListAsync();
+        }
     }
 }

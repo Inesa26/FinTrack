@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.WebAPI", "FinTrack.WebAPI\FinTrack.WebAPI.csproj", "{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.UnitTests", "FinTrack.UnitTests\FinTrack.UnitTests.csproj", "{E4340E90-4222-4CA8-B073-5EB9D982BEE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinTrack.IntegrationTests", "FinTrack.IntegrationTests\FinTrack.IntegrationTests.csproj", "{EFF16739-CBB2-41A1-A67F-65F4A240EC17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FEC9985-6FD8-48C3-A7B2-88481E0107E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4340E90-4222-4CA8-B073-5EB9D982BEE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4340E90-4222-4CA8-B073-5EB9D982BEE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4340E90-4222-4CA8-B073-5EB9D982BEE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4340E90-4222-4CA8-B073-5EB9D982BEE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF16739-CBB2-41A1-A67F-65F4A240EC17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF16739-CBB2-41A1-A67F-65F4A240EC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF16739-CBB2-41A1-A67F-65F4A240EC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF16739-CBB2-41A1-A67F-65F4A240EC17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

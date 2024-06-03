@@ -18,7 +18,7 @@ namespace FinTrack.Application.Auth.Commands
             _logger = logger;
         }
 
-        public async Task<string?> Handle(SignInCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             var user = await _userAuthenticationService.AuthenticateAsync(request.Email, request.Password);
             if (user == null) { return null; }

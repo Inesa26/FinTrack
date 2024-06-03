@@ -2,10 +2,12 @@ using FinTrack.Application.Abstractions;
 using FinTrack.Domain.Model;
 using FinTrack.Infrastructure;
 using FinTrack.Infrastructure.Data;
+using FinTrack.Infrastructure.DataSeed;
 using FinTrack.Infrastructure.Repositories;
 using FinTrack.Infrastructure.Services;
 using FinTrack.WebAPI.Extensions;
 using FinTrack.WebAPI.Middleware;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 
@@ -21,6 +23,7 @@ builder.Services
     .AddSingleton<IRepository<Category>, RepositoryImpl<Category>>()
     .AddSingleton<IRepository<Icon>, RepositoryImpl<Icon>>()
     .AddSingleton<IRepository<Transaction>, RepositoryImpl<Transaction>>()
+    .AddSingleton<IRepository<Account>, RepositoryImpl<Account>>()
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUnitOfWork, UnitOfWork>()
     .AddScoped<IIdentityService, IdentityService>()
@@ -40,6 +43,7 @@ builder.RegisterAuthentication();
 // Register AutoMapper with the dependency injection container
 builder.Services.AddAutoMapper(typeof(IRepository<Category>).Assembly);
 
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -48,6 +52,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwagger();
 
 var app = builder.Build();
+
+// Seed the database during application startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<FinTrackDbContext>();
+    var mediator = services.GetRequiredService<IMediator>();
+
+    await IconsSeed.Seed(context, mediator);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

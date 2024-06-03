@@ -13,25 +13,27 @@ namespace FinTrack.WebAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(ILogger<CategoriesController> logger, IMediator mediator)
+        public CategoriesController( IMediator mediator)
         {
-            _logger = logger;
+          
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
         {
-            return await _mediator.Send(new GetCategoryByIdQuery(id));
+            var result = await _mediator.Send(new GetCategoryByIdQuery(id));
+            return Ok(result);
         }
 
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
-            return await _mediator.Send(new GetAllCategoriesQuery());
+            var result = await _mediator.Send(new GetAllCategoriesQuery());
+            return Ok(result);
         }
+           
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command)

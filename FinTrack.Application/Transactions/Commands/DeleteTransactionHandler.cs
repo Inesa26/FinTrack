@@ -31,7 +31,7 @@ public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand
             await _unitOfWork.CommitTransactionAsync();
 
             _logger.LogInformation("Transaction with ID {TransactionId} removed successfully", request.TransactionId);
-            return _mapper.Map<TransactionDto>(request);
+            return _mapper.Map<TransactionDto>(deletedTransaction);
         }
 
         catch (Exception)

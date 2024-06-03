@@ -6,13 +6,18 @@ namespace FinTrack.Application.Transactions.Commands
 {
     public class CreateTransactionCommand : IRequest<TransactionDto>
     {
-        public CreateTransactionCommand(decimal amount, DateTime date, string description, int categoryId)
+        public CreateTransactionCommand(int accountId, decimal amount, DateTime date, string description, int categoryId)
         {
+            AccountId = accountId;
             Amount = amount;
             Date = date;
             Description = description;
             CategoryId = categoryId;
         }
+
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "AccountId must be greater than 0")]
+        public int AccountId { get; set; }
 
         [Required(ErrorMessage = "Amount is required")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0")]

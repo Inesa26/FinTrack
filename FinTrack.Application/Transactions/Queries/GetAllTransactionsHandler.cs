@@ -23,7 +23,8 @@ public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery
     {
         try
         {
-            var transactions = await _unitOfWork.TransactionRepository.GetAll();
+            var transactions = await _unitOfWork.TransactionRepository
+                .Filter(q => q.Where(t => t.AccountId == request.AccountId));
             _logger.LogInformation("All transactions listed successfully.");
             return transactions.Select(each => _mapper.Map<TransactionDto>(each)).ToList();
         }

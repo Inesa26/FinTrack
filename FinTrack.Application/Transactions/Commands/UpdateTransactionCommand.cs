@@ -14,7 +14,7 @@ namespace FinTrack.Application.Transactions.Commands
             Description = description;
             CategoryId = categoryId;
         }
-
+      
         [Required(ErrorMessage = "TransactionId is required")]
         [Range(1, int.MaxValue, ErrorMessage = "TransactionId must be greater than 0")]
         public int TransactionId { get; set; }
