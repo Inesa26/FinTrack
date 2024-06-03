@@ -1,4 +1,5 @@
-﻿using FinTrack.Application.Icons.Commands;
+﻿using FinTrack.Application.Common.Models;
+using FinTrack.Application.Icons.Commands;
 using FinTrack.Application.Icons.Queries;
 using FinTrack.Application.Responses;
 using FinTrack.IntegrationTests.Helpers;
@@ -24,9 +25,9 @@ namespace FinTrack.IntegrationTests.Controllers
         [Fact]
         public async Task GetAllIcons_ReturnsAllIcons()
         {
-            using var contextBuilder = new DataContextBuilder();
             // Arrange
-            var iconCount = 3;
+            using var contextBuilder = new DataContextBuilder();
+            var iconCount = 10; 
             contextBuilder.SeedIcons(iconCount);
             var controller = CreateIconsController(contextBuilder);
 
@@ -35,13 +36,19 @@ namespace FinTrack.IntegrationTests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
-            var icons = okResult.Value as List<IconDto>;
+            var paginatedResult = okResult.Value as PaginatedResult<IconDto>;
 
+            Assert.NotNull(paginatedResult);
+            Assert.Equal(10, paginatedResult.TotalCount); 
+            Assert.Equal(1, paginatedResult.PageIndex); 
+            Assert.Equal(2, paginatedResult.PageSize); 
+            Assert.Equal(5, paginatedResult.TotalPages); 
+
+            var icons = paginatedResult.Items;
             Assert.NotNull(icons);
-            Assert.Equal(iconCount, icons.Count);
+            Assert.Equal(2, icons.Count); 
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
-
         [Fact]
         public async Task GetIconById_ReturnsIcon()
         {

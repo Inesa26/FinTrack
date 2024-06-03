@@ -1,4 +1,8 @@
-﻿namespace FinTrack.Application.Abstractions
+﻿using FinTrack.Application.Common.Models;
+using FinTrack.Domain.Model;
+using System.Linq.Expressions;
+
+namespace FinTrack.Application.Abstractions
 {
     public interface IRepository<T>
     {
@@ -8,5 +12,10 @@
         Task<T?> Get(int id);
         Task<List<T>> GetAll();
         Task<List<T>> Filter(Func<IQueryable<T>, IQueryable<T>> filterFunc);
+
+        Task<PaginatedResult<T>> GetPaginated(int pageIndex, 
+            int pageSize, 
+            Func<IQueryable<T>, 
+            IQueryable<T>> filterFunc = null);
     }
 }

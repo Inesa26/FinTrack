@@ -6,10 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FinTrack.IntegrationTests.Helpers
 {
@@ -29,7 +25,7 @@ namespace FinTrack.IntegrationTests.Helpers
 
             if (string.IsNullOrEmpty(dbName))
             {
-                dbName = Guid.NewGuid().ToString(); 
+                dbName = Guid.NewGuid().ToString();
             }
 
             services.AddDbContext<FinTrackDbContext>(options =>
@@ -61,8 +57,13 @@ namespace FinTrack.IntegrationTests.Helpers
         {
             for (var i = 0; i < number; i++)
             {
-                var user = new ApplicationUser { UserName = $"user{i}@gmail.com",
-                    Email = $"user{i}@gmail.com", FirstName = $"FirstName{i}", LastName = $"LastName{i}" };
+                var user = new ApplicationUser
+                {
+                    UserName = $"user{i}@gmail.com",
+                    Email = $"user{i}@gmail.com",
+                    FirstName = $"FirstName{i}",
+                    LastName = $"LastName{i}"
+                };
 
 
                 var result = await _userManager.CreateAsync(user, "Password123@");
@@ -135,10 +136,10 @@ namespace FinTrack.IntegrationTests.Helpers
             _dbContext.SaveChanges();
         }
 
-        public async Task SeedTransactionsAsync(int number = 1)
+        public async Task SeedTransactionsAsync(int transactionsPerAccount = 1)
         {
-            var accounts = await _dbContext.Accounts.Take(number).ToListAsync();
-            var categories = await _dbContext.Categories.Take(number).ToListAsync();
+            var accounts = await _dbContext.Accounts.ToListAsync();
+            var categories = await _dbContext.Categories.Take(transactionsPerAccount).ToListAsync();
 
             if (!accounts.Any())
             {
@@ -152,17 +153,19 @@ namespace FinTrack.IntegrationTests.Helpers
 
             var transactions = new List<Transaction>();
 
-            for (var i = 0; i < number; i++)
+            foreach (var account in accounts)
             {
-                var accountId = accounts[i].Id;
-                var categoryId = categories[i].Id;
-                var amount = (i + 1) * 10.00m;
-                var date = DateTime.Now.AddDays(-i);
-                var description = $"Transaction {i + 1}";
+                for (var i = 0; i < transactionsPerAccount; i++)
+                {
+                    var categoryId = categories[0].Id;
+                    var amount = (i + 1) * 10.00m;
+                    var date = DateTime.Now.AddDays(-i);
+                    var description = $"Transaction {i + 1} for Account {account.Id}";
 
-                var transaction = new Transaction(accountId, amount, date, description, categoryId);
+                    var transaction = new Transaction(account.Id, amount, date, description, categoryId);
 
-                transactions.Add(transaction);
+                    transactions.Add(transaction);
+                }
             }
 
             _dbContext.AddRange(transactions);

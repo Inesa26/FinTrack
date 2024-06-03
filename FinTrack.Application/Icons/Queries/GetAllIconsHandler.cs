@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using FinTrack.Application.Abstractions;
+using FinTrack.Application.Common.Models;
 using FinTrack.Application.Icons.Commands;
 using FinTrack.Application.Responses;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace FinTrack.Application.Icons.Queries;
-public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, List<IconDto>>
+public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, PaginatedResult<IconDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<GetAllIconsHandler> _logger;
@@ -19,13 +20,17 @@ public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, List<IconDto
         _mapper = mapper;
     }
 
-    public async Task<List<IconDto>> Handle(GetAllIconsQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResult<IconDto>> Handle(GetAllIconsQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var icons = await _unitOfWork.IconRepository.GetAll();
+            var paginatedResult = await _unitOfWork.IconRepository.GetPaginated(pageIndex: request.PageIndex, pageSize: request.PageSize);
+
             _logger.LogInformation("All icons listed successfully.");
-            return icons.Select(each => _mapper.Map<IconDto>(each)).ToList();
+
+            var mappedIcons = paginatedResult.Items.Select(each => _mapper.Map<IconDto>(each)).ToList();
+
+            return new PaginatedResult<IconDto>(mappedIcons, paginatedResult.TotalCount, request.PageIndex, request.PageSize);
         }
         catch (Exception ex)
         {
@@ -33,5 +38,6 @@ public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, List<IconDto
             throw;
         }
     }
+
 }
 

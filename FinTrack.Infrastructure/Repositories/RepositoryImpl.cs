@@ -1,4 +1,5 @@
 ﻿using FinTrack.Application.Abstractions;
+using FinTrack.Application.Common.Models;
 using FinTrack.Domain.Model;
 using FinTrack.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -46,5 +47,21 @@ namespace FinTrack.Infrastructure.Repositories
             query = filterFunc(query);
             return await query.ToListAsync();
         }
+        public async Task<PaginatedResult<T>> GetPaginated(int pageIndex, int pageSize, Func<IQueryable<T>, IQueryable<T>> filterFunc = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+
+            if (filterFunc != null)
+            {
+                query = filterFunc(query);
+            }
+
+            int totalCount = await query.CountAsync();
+            List<T> items = await query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return new PaginatedResult<T>(items, totalCount, pageIndex, pageSize);
+        }
+
     }
 }

@@ -26,9 +26,11 @@ namespace FinTrack.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<IconDto>>> GetAllIcons()
+        public async Task<ActionResult<List<IconDto>>> GetAllIcons(
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var result = await _mediator.Send(new GetAllIconsQuery());
+            var result = await _mediator.Send(new GetAllIconsQuery(pageIndex, pageSize));
             return Ok(result);
         }
 

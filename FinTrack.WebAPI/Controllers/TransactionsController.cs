@@ -1,4 +1,5 @@
-﻿using FinTrack.Application.Responses;
+﻿using FinTrack.Application.Common.Models;
+using FinTrack.Application.Responses;
 using FinTrack.Application.Transactions.Commands;
 using FinTrack.Application.Transactions.Queries;
 using MediatR;
@@ -26,17 +27,22 @@ namespace FinTrack.WebAPI.Controllers
             return Ok(result);
         }
 
-       /* [HttpGet]
-        public async Task<ActionResult<List<TransactionDto>>> GetAllTransactions()
-        {
-            return await _mediator.Send(new GetAllTransactionsQuery());
-        }*/
-       
+        /* [HttpGet]
+         public async Task<ActionResult<List<TransactionDto>>> GetAllTransactions()
+         {
+             return await _mediator.Send(new GetAllTransactionsQuery());
+         }*/
+
         [HttpGet]
-        public async Task<ActionResult<List<TransactionDto>>> GetTransactionsByAccountId([FromQuery] int accountId)
+        public async Task<ActionResult<PaginatedResult<TransactionDto>>> GetTransactionsByAccountId(
+            [FromQuery] int accountId,
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] string sortBy = "Date",
+            [FromQuery] string sortOrder = "asc")
         {
-            var query = new GetAllTransactionsQuery(accountId);
-            var result = await _mediator.Send(query); 
+            var query = new GetAllTransactionsQuery(accountId, pageIndex, pageSize, sortBy, sortOrder);
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
 

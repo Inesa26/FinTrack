@@ -1,4 +1,5 @@
-﻿using FinTrack.Application.Responses;
+﻿using FinTrack.Application.Common.Models;
+using FinTrack.Application.Responses;
 using FinTrack.Application.Transactions.Commands;
 using FinTrack.Application.Transactions.Queries;
 using FinTrack.IntegrationTests.Helpers;
@@ -55,25 +56,28 @@ namespace FinTrack.IntegrationTests.Controllers
             await contextBuilder.SeedAccountsAsync(1);
             contextBuilder.SeedIcons(1);
             contextBuilder.SeedCategories(1);
-            await contextBuilder.SeedTransactionsAsync(1);
+            await contextBuilder.SeedTransactionsAsync(10);
 
             var controller = CreateTransactionsController(contextBuilder);
             var accountId = 1;
+            var pageIndex = 1;
+            var pageSize = 10;
+            var sortBy = "Date";
+            var sortOrder = "desc";
 
             // Act
-            var actionResult = await controller.GetTransactionsByAccountId(accountId);
-
-            // Log ActionResult for debugging
-            Console.WriteLine("Action Result: " + actionResult);
+            var actionResult = await controller.GetTransactionsByAccountId(accountId, pageIndex, pageSize, sortBy, sortOrder);
 
             // Assert
             var okObjectResult = Assert.IsType<OkObjectResult>(actionResult.Result);
-            var transactions = Assert.IsType<List<TransactionDto>>(okObjectResult.Value);
-
+            var paginatedResult = Assert.IsType<PaginatedResult<TransactionDto>>(okObjectResult.Value);
+            var transactions = paginatedResult.Items;
+            
             Assert.NotNull(transactions);
-            Assert.Equal(1, transactions.Count);
+            Assert.Equal(10, transactions.Count);
             Assert.Equal((int)HttpStatusCode.OK, okObjectResult.StatusCode);
         }
+
 
 
         [Fact]

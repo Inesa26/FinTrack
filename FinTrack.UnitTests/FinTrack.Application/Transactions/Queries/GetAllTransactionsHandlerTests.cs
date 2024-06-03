@@ -26,15 +26,15 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Queries
         }
 
         [Fact]
-        public async Task Handle_ValidRequest_ReturnsListOfTransactionDtos()
+        public async Task Handle_ValidRequest_ReturnsPaginatedResultOfTransactionDtos()
         {
             // Arrange
-            var request = new GetAllTransactionsQuery(accountId);
+            var request = new GetAllTransactionsQuery(accountId, pageIndex: 1, pageSize: 10, sortBy: "Date", sortOrder: "asc");
             var transactions = new List<Transaction>
-             {
-                 new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", accountId),
-                 new Transaction(2, 200.0m, DateTime.Now, "Transaction 2", accountId)
-             };
+    {
+        new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", accountId),
+        new Transaction(2, 200.0m, DateTime.Now, "Transaction 2", accountId)
+    };
 
             var expectedTransactionDtos = transactions.Select(t => new TransactionDto
             {
@@ -65,20 +65,21 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Queries
 
             // Assert
             _unitOfWorkMock.Verify(uow => uow.TransactionRepository.Filter(It.IsAny<Func<IQueryable<Transaction>, IQueryable<Transaction>>>()), Times.Once);
-            Assert.Equal(expectedTransactionDtos.Count, result.Count);
+
+            Assert.Equal(expectedTransactionDtos.Count, result.Items.Count);
 
             for (int i = 0; i < expectedTransactionDtos.Count; i++)
             {
-                Assert.True(AreEqualTransactionDtos(expectedTransactionDtos[i], result[i]), $"TransactionDto at index {i} does not match.");
+                Assert.True(AreEqualTransactionDtos(expectedTransactionDtos[i], result.Items[i]), $"TransactionDto at index {i} does not match.");
             }
         }
+
 
         [Fact]
         public async Task Handle_EmptyListReturnedWhenNoTransactionsForAccount()
         {
             // Arrange
-            var accountId = 1;
-            var request = new GetAllTransactionsQuery(accountId);
+            var request = new GetAllTransactionsQuery(accountId, pageIndex: 1, pageSize: 10, sortBy: "Date", sortOrder: "asc");
             var emptyTransactions = new List<Transaction>();
 
             _unitOfWorkMock.Setup(uow => uow.TransactionRepository.Filter(It.IsAny<Func<IQueryable<Transaction>, IQueryable<Transaction>>>()))
@@ -89,7 +90,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Queries
 
             // Assert
             _unitOfWorkMock.Verify(uow => uow.TransactionRepository.Filter(It.IsAny<Func<IQueryable<Transaction>, IQueryable<Transaction>>>()), Times.Once);
-            Assert.Empty(result);
+            Assert.Empty(result.Items);
         }
 
 
