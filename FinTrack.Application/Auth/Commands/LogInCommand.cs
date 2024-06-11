@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using FinTrack.Application.Responses;
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinTrack.Application.Auth.Commands
 {
-    public class SignInCommand : IRequest<string>
+    public class LogInCommand : IRequest<LoginDto>
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]

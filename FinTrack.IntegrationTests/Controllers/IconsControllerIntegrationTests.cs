@@ -2,6 +2,7 @@
 using FinTrack.Application.Icons.Commands;
 using FinTrack.Application.Icons.Queries;
 using FinTrack.Application.Responses;
+using FinTrack.Domain.Enum;
 using FinTrack.IntegrationTests.Helpers;
 using FinTrack.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -41,12 +42,12 @@ namespace FinTrack.IntegrationTests.Controllers
             Assert.NotNull(paginatedResult);
             Assert.Equal(10, paginatedResult.TotalCount); 
             Assert.Equal(1, paginatedResult.PageIndex); 
-            Assert.Equal(2, paginatedResult.PageSize); 
-            Assert.Equal(5, paginatedResult.TotalPages); 
+            Assert.Equal(10, paginatedResult.PageSize); 
+            Assert.Equal(1, paginatedResult.TotalPages); 
 
             var icons = paginatedResult.Items;
             Assert.NotNull(icons);
-            Assert.Equal(2, icons.Count); 
+            Assert.Equal(10, icons.Count); 
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
         [Fact]
@@ -76,9 +77,10 @@ namespace FinTrack.IntegrationTests.Controllers
         {
             using var contextBuilder = new DataContextBuilder();
             // Arrange
-            var iconData = "D:\\Amdaris_Internship\\FinTrack\\Icons\\icon1.png";
+            var iconData = "D:\\Amdaris_Internship\\FinTrack\\Icons\\apple.png";
+            TransactionType transactionType = 0;
             var controller = CreateIconsController(contextBuilder);
-            var createIconCommand = new CreateIconCommand(iconData);
+            var createIconCommand = new CreateIconCommand(iconData, transactionType);
 
             // Act
             var actionResult = await controller.CreateIcon(createIconCommand);
@@ -96,7 +98,7 @@ namespace FinTrack.IntegrationTests.Controllers
         {
             using var contextBuilder = new DataContextBuilder();
             // Arrange
-            var updatedIconData = "D:\\Amdaris_Internship\\FinTrack\\Icons\\icon1.png";
+            var updatedIconData = "D:\\Amdaris_Internship\\FinTrack\\Icons\\apple.png";
             contextBuilder.SeedIcons(1);
             var controller = CreateIconsController(contextBuilder);
             var updateIconCommand = new UpdateIconCommand(1, updatedIconData);

@@ -24,7 +24,11 @@ public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, PaginatedRes
     {
         try
         {
-            var paginatedResult = await _unitOfWork.IconRepository.GetPaginated(pageIndex: request.PageIndex, pageSize: request.PageSize);
+            var paginatedResult = await _unitOfWork.IconRepository.GetPaginated(
+                pageIndex: request.PageIndex,
+                pageSize: request.PageSize,
+                query =>
+                query.Where(icon => icon.TransactionType == request.TransactionType));
 
             _logger.LogInformation("All icons listed successfully.");
 
@@ -38,6 +42,5 @@ public class GetAllIconsHandler : IRequestHandler<GetAllIconsQuery, PaginatedRes
             throw;
         }
     }
-
 }
 

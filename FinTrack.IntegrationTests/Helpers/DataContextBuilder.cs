@@ -96,7 +96,8 @@ namespace FinTrack.IntegrationTests.Helpers
             for (var i = 0; i < number; i++)
             {
                 var data = new byte[] { 0xFF, 0xAA, 0x55, 0x00 };
-                var icon = new Icon(data);
+                TransactionType transactionType = TransactionType.Expense;
+                var icon = new Icon(data, transactionType);
 
                 icons.Add(icon);
             }

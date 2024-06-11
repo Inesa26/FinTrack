@@ -41,9 +41,9 @@ namespace FinTrack.WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] SignInCommand signInCommand)
+        public async Task<IActionResult> Login([FromBody] LogInCommand logInCommand)
         {
-            var response = await _mediator.Send(signInCommand);
+            var response = await _mediator.Send(logInCommand);
             if (response == null)
             {
                 return Unauthorized();

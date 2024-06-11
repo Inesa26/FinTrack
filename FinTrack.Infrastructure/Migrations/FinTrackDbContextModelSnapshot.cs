@@ -168,6 +168,9 @@ namespace FinTrack.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("VARBINARY(MAX)");
 
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Icons");

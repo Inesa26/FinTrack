@@ -78,7 +78,7 @@ namespace FinTrack.IntegrationTests.Controllers
                   var dbContext = contextBuilder.GetContext();
             var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == "user0@gmail.com");
             Assert.NotNull(user);
-            var signInCommand = new SignInCommand
+            var signInCommand = new LogInCommand
             {
                 Email = "user0@gmail.com",
                 Password = "Password123@"
@@ -91,7 +91,7 @@ namespace FinTrack.IntegrationTests.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(actionResult);
-            var jwtToken = okResult.Value as string;
+            var jwtToken = okResult.Value;
 
             Assert.NotNull(jwtToken);
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
@@ -103,7 +103,7 @@ namespace FinTrack.IntegrationTests.Controllers
             using var contextBuilder = new DataContextBuilder();
             // Arrange
             await contextBuilder.SeedUsersAsync(1);
-            var signInCommand = new SignInCommand
+            var signInCommand = new LogInCommand
             {
                 Email = "user0@gmail.com",
                 Password = "WrongPassword"
