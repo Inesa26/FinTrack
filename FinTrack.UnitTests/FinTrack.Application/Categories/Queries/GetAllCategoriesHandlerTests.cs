@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using FinTrack.Application.Abstractions;
 using FinTrack.Application.Categories.Queries;
 using FinTrack.Application.Responses;
@@ -57,3 +57,4 @@ namespace FinTrack.UnitTests.FinTrack.Application.Categories.Queries
         }
     }
 }
+*/

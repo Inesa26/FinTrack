@@ -2,6 +2,7 @@
 using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using FinTrack.Application.Transactions.Queries;
+using FinTrack.Domain.Enum;
 using FinTrack.Domain.Model;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -32,8 +33,8 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Queries
             var request = new GetAllTransactionsQuery(accountId, pageIndex: 1, pageSize: 10, sortBy: "Date", sortOrder: "asc");
             var transactions = new List<Transaction>
     {
-        new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", accountId),
-        new Transaction(2, 200.0m, DateTime.Now, "Transaction 2", accountId)
+        new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", accountId, TransactionType.Expense),
+        new Transaction(2, 200.0m, DateTime.Now, "Transaction 2", accountId, TransactionType.Expense)
     };
 
             var expectedTransactionDtos = transactions.Select(t => new TransactionDto

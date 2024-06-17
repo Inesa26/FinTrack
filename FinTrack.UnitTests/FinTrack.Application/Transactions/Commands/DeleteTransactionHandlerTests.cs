@@ -2,6 +2,7 @@
 using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using FinTrack.Application.Transactions.Commands;
+using FinTrack.Domain.Enum;
 using FinTrack.Domain.Model;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -30,7 +31,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
             // Arrange
             var transactionId = 1;
             var request = new DeleteTransactionCommand(transactionId);
-            var transaction = new Transaction(1, 255.00m, DateTime.UtcNow, "Test", 2);
+            var transaction = new Transaction(1, 255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
             var deletedTransactionDto = new TransactionDto
             {
                 AccountId = transaction.AccountId,

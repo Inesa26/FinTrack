@@ -70,7 +70,8 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<FinTrackDbContext>();
     var mediator = services.GetRequiredService<IMediator>();
 
-    await IconsSeed.Seed(context, mediator);
+    await IconsSeed.SeedIcons(context, mediator);
+    await CategoriesSeed.SeedCategories(context, mediator);
 }
 
 // Configure the HTTP request pipeline.

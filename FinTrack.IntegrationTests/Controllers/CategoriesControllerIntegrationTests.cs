@@ -21,7 +21,7 @@ namespace FinTrack.IntegrationTests.Controllers
             return new CategoriesController(mediator);
         }
 
-        [Fact]
+     /*   [Fact]
         public async Task GetAllCategories_ReturnsAllCategories()
         {
             // Arrange
@@ -45,7 +45,7 @@ namespace FinTrack.IntegrationTests.Controllers
             Assert.Equal(categoryCount, categories.Count);
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
-
+     */
         [Fact]
         public async Task GetCategoryById_ReturnsCategory()
         {

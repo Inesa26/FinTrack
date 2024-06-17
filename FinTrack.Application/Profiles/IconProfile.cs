@@ -23,6 +23,8 @@ namespace FinTrack.Application.Profiles
             CreateMap<Icon, IconDto>()
                 .ForMember(dest => dest.Base64Data, opt => opt.MapFrom(src => Convert.ToBase64String(src.Data)))
                 .ForMember(dest => dest.TransactionType,
-                           src => src.MapFrom(x => x.TransactionType));
+                           src => src.MapFrom(x => x.TransactionType))
+                .ForMember(dest => dest.Title,
+                src => src.MapFrom(x => x.Title));
         }
     }}

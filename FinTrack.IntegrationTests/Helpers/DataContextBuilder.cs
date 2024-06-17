@@ -97,7 +97,7 @@ namespace FinTrack.IntegrationTests.Helpers
             {
                 var data = new byte[] { 0xFF, 0xAA, 0x55, 0x00 };
                 TransactionType transactionType = TransactionType.Expense;
-                var icon = new Icon(data, transactionType);
+                var icon = new Icon(data, transactionType, "title");
 
                 icons.Add(icon);
             }
@@ -162,8 +162,9 @@ namespace FinTrack.IntegrationTests.Helpers
                     var amount = (i + 1) * 10.00m;
                     var date = DateTime.Now.AddDays(-i);
                     var description = $"Transaction {i + 1} for Account {account.Id}";
+                    var type = TransactionType.Expense;
 
-                    var transaction = new Transaction(account.Id, amount, date, description, categoryId);
+                    var transaction = new Transaction(account.Id, amount, date, description, categoryId, type);
 
                     transactions.Add(transaction);
                 }

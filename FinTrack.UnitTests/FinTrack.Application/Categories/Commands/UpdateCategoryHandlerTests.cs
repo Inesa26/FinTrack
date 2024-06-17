@@ -38,7 +38,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Categories.Commands
             };
 
             _unitOfWorkMock.Setup(uow => uow.CategoryRepository.Get(request.CategoryId)).ReturnsAsync(existingCategory);
-            _unitOfWorkMock.Setup(uow => uow.IconRepository.Get(request.IconId)).ReturnsAsync(new Icon(new byte[0], TransactionType.Expense));
+            _unitOfWorkMock.Setup(uow => uow.IconRepository.Get(request.IconId)).ReturnsAsync(new Icon(new byte[0], TransactionType.Expense, "title"));
             _unitOfWorkMock.Setup(uow => uow.CategoryRepository.Update(request.CategoryId, It.IsAny<Category>())).ReturnsAsync(expectedUpdatedCategory);
             _mapperMock.Setup(mapper => mapper.Map<CategoryDto>(expectedUpdatedCategory)).Returns(expectedCategoryDto);
 

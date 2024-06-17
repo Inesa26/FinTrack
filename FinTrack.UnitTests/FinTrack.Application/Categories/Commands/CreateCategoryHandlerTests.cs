@@ -34,7 +34,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Categories.Commands
             var categoryList = new List<Category>();
             byte[] iconData = new byte[] { 0xFF, 0xAA, 0x55, 0x00 };
             TransactionType transactionType = TransactionType.Expense;
-            var existingIcon = new Icon(iconData, transactionType);
+            var existingIcon = new Icon(iconData, transactionType, "test");
             var category = new Category("Test Category", TransactionType.Expense, existingIcon.Id);
             var expectedCategoryDto = new CategoryDto
             {

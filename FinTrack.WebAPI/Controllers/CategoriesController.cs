@@ -1,6 +1,7 @@
 using FinTrack.Application.Categories.Commands;
 using FinTrack.Application.Categories.Queries;
 using FinTrack.Application.Responses;
+using FinTrack.Domain.Enum;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,14 @@ namespace FinTrack.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/category")]
-    [Authorize]
+   
     public class CategoriesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public CategoriesController( IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
-          
+
             _mediator = mediator;
         }
 
@@ -28,12 +29,16 @@ namespace FinTrack.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
+        public async Task<ActionResult<List<CategoryIconDto>>> GetAllCategories(
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10,
+            [FromQuery] TransactionType transactionType = 0)
+
         {
-            var result = await _mediator.Send(new GetAllCategoriesQuery());
+            var result = await _mediator.Send(new GetAllCategoriesQuery(pageIndex, pageSize, transactionType));
             return Ok(result);
         }
-           
+
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command)

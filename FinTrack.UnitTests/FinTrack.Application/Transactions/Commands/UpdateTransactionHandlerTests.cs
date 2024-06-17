@@ -30,8 +30,8 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
             // Arrange
             DateTime date = DateTime.UtcNow;
             var request = new UpdateTransactionCommand(1, 255.00m, date, "Test", 2);
-            var existingTransaction = new Transaction(1, 300.00m, date, "Test", 1);
-            var updatedTransaction = new Transaction(1, 255.00m, date, "Test", 2);
+            var existingTransaction = new Transaction(1, 300.00m, date, "Test", 1, TransactionType.Expense);
+            var updatedTransaction = new Transaction(1, 255.00m, date, "Test", 2, TransactionType.Expense);
             var existingCategory = new Category("Social", TransactionType.Expense, 1);
             var updatedTransactionDto = new TransactionDto
             {
@@ -82,7 +82,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         {
             // Arrange
             var request = new UpdateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2);
-            var existingTransaction = new Transaction(1, 300.00m, DateTime.UtcNow, "Test", 1);
+            var existingTransaction = new Transaction(1, 300.00m, DateTime.UtcNow, "Test", 1, TransactionType.Expense);
 
             _unitOfWorkMock.Setup(uow => uow.TransactionRepository.Get(request.TransactionId)).ReturnsAsync(existingTransaction);
             _unitOfWorkMock.Setup(uow => uow.CategoryRepository.Get(request.CategoryId)).ReturnsAsync((Category?)null);

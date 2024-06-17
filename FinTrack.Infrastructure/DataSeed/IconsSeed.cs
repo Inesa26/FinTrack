@@ -2,101 +2,110 @@
 using FinTrack.Domain.Enum;
 using FinTrack.Infrastructure.Data;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FinTrack.Infrastructure.DataSeed
 {
     public class IconsSeed
     {
-        public static async Task Seed(FinTrackDbContext context, IMediator mediator)
+        public static async Task SeedIcons(FinTrackDbContext context, IMediator mediator)
         {
             if (!context.Icons.Any())
             {
                 var expenseIcons = new[]
                 {
-                    "car-rental.png",
-                    "t-shirt.png",
-                    "university.png",
-                    "zoo.png",
-                    "airport.png",
-                    "amusement-park.png",
+                    "accomodation.png",
                     "art.png",
-                    "atm.png",
-                    "barbershop.png",
-                    "beach.png",
-                    "boat.png",
-                    "bus-station.png",
+                    "bills.png",
+                    "books.png",
+                    "car-rental.png",
                     "car-repair.png",
                     "car-wash.png",
                     "charging-station.png",
-                    "church.png",
                     "cinema.png",
-                    "coffee-shop.png",
+                    "clothes.png",
                     "concert.png",
-                    "drugstore.png",
-                    "florist.png",
-                    "football-field.png",
-                    "forest.png",
-                    "gas-station.png",
-                    "gym.png",
-                    "hospital.png",
-                    "hotel.png",
-                    "house.png",
-                    "lake.png",
+                    "cosmetics.png",
+                    "donations.png",
+                    "education.png",
+                    "financial.png",
+                    "fines.png",
+                    "fitness.png",
+                    "flowers.png",
+                    "fuel.png",
+                    "groceries.png",
+                    "healthcare.png",
+                    "home.png",
+                    "jewerly.png",
                     "laundry.png",
-                    "library.png",
-                    "make-up.png",
-                    "monument.png",
-                    "museum.png",
-                    "night-club.png",
-                    "office.png",
-                    "park.png",
-                    "parking-area.png",
-                    "pet-shop.png",
-                    "police-station.png",
-                    "post-office.png",
-                    "railway-station.png",
+                    "medicines.png",
+                    "nightlife.png",
+                    "parking.png",
+                    "personal-care.png",
+                    "pets.png",
+                    "presents.png",
+                    "quick-eats.png",
+                    "recreation.png",
+                    "religion.png",
                     "restaurant.png",
-                    "river.png",
                     "school.png",
-                    "shop.png",
                     "sports.png",
-                    "apple.png",
-                    "gift.png",
-                    "hand-bag.png",
-                    "eyeglasses.png",
-                    "shoes.png",
-                    "ring.png",
-                    "fast-food.png",
-                    "dining-table.png",
-                };
-                var incomeIcons = new[]
-              {
-                    "puzzle.png",
-                    "briefcase.png",
-                    "negotiation.png",
-                    "presentation.png",
-                    "profit.png",
-                    "credit-card.png",
-                    "cash.png",
+                    "transport.png",
+                    "travel.png",
+                    "zoo.png",
+                    "phone.png",
+                    "love.png",
+                    "wedding-rings.png",
+                    "arcade-game.png",
+                    "card-game.png",
+                    "recycle-bin.png",
+                    "mop.png",
+                    "hammer.png",
+                    "paper-clip.png",
+                    "cake.png",
+                    "cocktail.png",
+                    "photography.png",
+                    "hunting.png",
+                    "computer.png",
+                    "balloons.png",
+                    "cat.png",
+                    "dog.png",
+                    "family.png",
+                    "boy.png",
+                    "girl.png",
+                    "trains.png"
                 };
 
+                var incomeIcons = new[]
+                {
+                    "parttime.png",
+                    "other.png",
+                    "salary.png",
+                    "fund.png",
+                    "stock.png",
+                    "invest.png",
+                    "rent.png",
+                    "borrow.png"
+                };
+
+                // Seed expense icons
                 foreach (var iconName in expenseIcons)
                 {
                     var iconPath = Path.Combine("D:\\Amdaris_Internship\\FinTrack\\Icons", iconName);
                     TransactionType transactionType = TransactionType.Expense;
 
-                    var command = new CreateIconCommand(iconPath, transactionType);
-                    await mediator.Send(command);
+
+                    var createIconCommand = new CreateIconCommand(iconPath, transactionType, iconName);
+                    var icon = await mediator.Send(createIconCommand);
                 }
 
+                // Seed income icons
                 foreach (var iconName in incomeIcons)
                 {
                     var iconPath = Path.Combine("D:\\Amdaris_Internship\\FinTrack\\Icons", iconName);
                     TransactionType transactionType = TransactionType.Income;
 
-                    var command = new CreateIconCommand(iconPath, transactionType);
-                    await mediator.Send(command);
+                    var createIconCommand = new CreateIconCommand(iconPath, transactionType, iconName);
+                    var icon = await mediator.Send(createIconCommand);
                 }
             }
         }

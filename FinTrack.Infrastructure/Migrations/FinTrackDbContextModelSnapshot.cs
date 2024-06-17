@@ -168,6 +168,10 @@ namespace FinTrack.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("VARBINARY(MAX)");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
@@ -200,6 +204,9 @@ namespace FinTrack.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

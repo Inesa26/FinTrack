@@ -2,6 +2,7 @@
 using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using FinTrack.Application.Transactions.Queries;
+using FinTrack.Domain.Enum;
 using FinTrack.Domain.Model;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -28,7 +29,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Categories.Queries
         {
             // Arrange
             int transactionId = 1;
-            var transaction = new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", 1);
+            var transaction = new Transaction(1, 100.0m, DateTime.Now, "Transaction 1", 1, TransactionType.Expense);
             var transactionDto = new TransactionDto
             {
                 Id = transaction.Id,

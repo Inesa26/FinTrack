@@ -25,7 +25,7 @@ public class CreateIconHandler : IRequestHandler<CreateIconCommand, IconDto>
         {
             await _unitOfWork.BeginTransactionAsync();
             byte[] image = ReadImageFile(request.FilePath);
-            Icon icon = new(image, request.TransactionType);
+            Icon icon = new(image, request.TransactionType, request.Title);
             var createdIcon = await _unitOfWork.IconRepository.Add(icon);
             await _unitOfWork.SaveAsync();
             await _unitOfWork.CommitTransactionAsync();

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace FinTrack.Application.Transactions.Queries
 {
-    public class GetAllTransactionsQuery : IRequest<PaginatedResult<TransactionDto>>
+    public class GetAllTransactionsQuery : IRequest<PaginatedResult<TransactionCategoryDto>>
     {
         public int AccountId { get; }
         public int PageIndex { get; }

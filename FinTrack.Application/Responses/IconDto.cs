@@ -6,9 +6,10 @@ namespace FinTrack.Application.Responses
     {/*
         public int Id { get; init; }
         public byte[] Data { get; init; }*/
-         public int Id { get; init; }
+        public int Id { get; init; }
   
         public string Base64Data { get; set; }
         public TransactionType TransactionType { get; set; }
+        public string Title { get; set; }
     }
 }

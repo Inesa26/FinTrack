@@ -3,14 +3,13 @@ using FinTrack.Application.Icons.Queries;
 using FinTrack.Application.Responses;
 using FinTrack.Domain.Enum;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinTrack.WebAPI.Controllers
 {
     [Route("api/icon")]
     [ApiController]
-    
+
     public class IconsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -31,7 +30,7 @@ namespace FinTrack.WebAPI.Controllers
         public async Task<ActionResult<List<IconDto>>> GetAllIcons(
             [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10,
-             [FromQuery] TransactionType transactionType = 0)
+            [FromQuery] TransactionType transactionType = 0)
         {
             var result = await _mediator.Send(new GetAllIconsQuery(pageIndex, pageSize, transactionType));
             return Ok(result);

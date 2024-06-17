@@ -47,6 +47,14 @@ namespace FinTrack.Infrastructure.Repositories
             query = filterFunc(query);
             return await query.ToListAsync();
         }
+
+        public async Task<T?> GetSingle(Func<IQueryable<T>, IQueryable<T>> filterFunc)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            query = filterFunc(query);
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<PaginatedResult<T>> GetPaginated(int pageIndex, int pageSize, Func<IQueryable<T>, IQueryable<T>> filterFunc = null)
         {
             IQueryable<T> query = _context.Set<T>();

@@ -12,6 +12,7 @@ namespace FinTrack.Application.Abstractions
         Task<T?> Get(int id);
         Task<List<T>> GetAll();
         Task<List<T>> Filter(Func<IQueryable<T>, IQueryable<T>> filterFunc);
+        Task<T?> GetSingle(Func<IQueryable<T>, IQueryable<T>> filterFunc);
 
         Task<PaginatedResult<T>> GetPaginated(int pageIndex, 
             int pageSize, 

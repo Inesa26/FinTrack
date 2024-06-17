@@ -28,9 +28,10 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         public async Task Handle_ValidRequest_ReturnsTransactionDto()
         {
             // Arrange
-            var request = new CreateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2);
-            var existingCategory = new Category("Social", TransactionType.Expense, 1);
-            var transaction = new Transaction(1, 255.00m, DateTime.UtcNow, "Test", 2);
+            var request = new CreateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
+            var existingCategory = new Category("Social", TransactionType.Expense, 2);
+            var account = new Account("userId");
+            var transaction = new Transaction(1, 255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
             var expectedTransactionDto = new TransactionDto
             {
                 Id = transaction.Id,
@@ -38,15 +39,17 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
                 Amount = transaction.Amount,
                 Date = transaction.Date,
                 Description = transaction.Description,
-                CategoryId = transaction.CategoryId
+                CategoryId = transaction.CategoryId,
+                TransactionType = transaction.Type
             };
 
             _unitOfWorkMock.Setup(uow => uow.CategoryRepository.Get(request.CategoryId)).ReturnsAsync(existingCategory);
+            _unitOfWorkMock.Setup(uow => uow.AccountRepository.Get(request.AccountId)).ReturnsAsync(account);
             _unitOfWorkMock.Setup(uow => uow.TransactionRepository.Add(It.IsAny<Transaction>())).ReturnsAsync(transaction);
             _mapperMock.Setup(mapper => mapper.Map<TransactionDto>(It.IsAny<Transaction>())).Returns(expectedTransactionDto);
 
             // Act
-            var result = await _handler.Handle(request, default);
+            var result = await _handler.Handle(request, CancellationToken.None);
 
             // Assert
             _unitOfWorkMock.Verify(x => x.BeginTransactionAsync(), Times.Once);
@@ -65,7 +68,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         public async Task Handle_CategoryNotFound_ThrowsException()
         {
             // Arrange
-            var request = new CreateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2);
+            var request = new CreateTransactionCommand(1,255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
 
             _unitOfWorkMock.Setup(uow => uow.CategoryRepository.Get(request.CategoryId)).ReturnsAsync((Category?)null);
 
