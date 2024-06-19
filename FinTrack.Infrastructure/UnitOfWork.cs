@@ -10,7 +10,7 @@ namespace FinTrack.Infrastructure
 
         public UnitOfWork(FinTrackDbContext context, IRepository<Category> categoryRepository,
             IRepository<Icon> iconRepository, IRepository<Transaction> transactionRepository,
-            IUserRepository userRepository, IRepository<Account> accountRepository)
+            IUserRepository userRepository, IRepository<Account> accountRepository, IRepository<MonthlySummary> monthlySummaryRepository)
         {
             _context = context;
             CategoryRepository = categoryRepository;
@@ -18,13 +18,16 @@ namespace FinTrack.Infrastructure
             TransactionRepository = transactionRepository;
             UserRepository = userRepository;
             AccountRepository = accountRepository;
+            MonthlySummaryRepository = monthlySummaryRepository;
         }
 
         public IRepository<Category> CategoryRepository { get; private set; }
         public IRepository<Icon> IconRepository { get; private set; }
         public IRepository<Transaction> TransactionRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
-        public IRepository<Account> AccountRepository { get; private set; } 
+        public IRepository<Account> AccountRepository { get; private set; }
+        public IRepository<MonthlySummary> MonthlySummaryRepository { get; private set; }
+
 
         public async Task BeginTransactionAsync()
         {

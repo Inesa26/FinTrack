@@ -9,6 +9,7 @@ namespace FinTrack.Application.Abstractions
         IRepository<Transaction> TransactionRepository { get; }
         IUserRepository UserRepository { get; }
         IRepository<Account> AccountRepository { get; }
+        IRepository<MonthlySummary> MonthlySummaryRepository { get; }
         Task SaveAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

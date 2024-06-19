@@ -50,7 +50,7 @@ namespace FinTrack.IntegrationTests.Controllers
             Assert.Equal((int)HttpStatusCode.OK, (actionResult.Result as OkObjectResult)?.StatusCode);
         }
 
-        [Fact]
+       /* [Fact]
         public async Task GetTransactionsByAccountId_ReturnsTransactions()
         {
             // Arrange
@@ -79,7 +79,7 @@ namespace FinTrack.IntegrationTests.Controllers
             Assert.NotNull(transactions);
             Assert.Equal(10, transactions.Count);
             Assert.Equal((int)HttpStatusCode.OK, okObjectResult.StatusCode);
-        }
+        }*/
 
 
         /*

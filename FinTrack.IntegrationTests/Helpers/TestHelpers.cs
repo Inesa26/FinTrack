@@ -47,8 +47,9 @@ namespace FinTrack.IntegrationTests.Helpers
             var userRepository = new UserRepository(userManager, roleManager);
 
             var accountRepository = new RepositoryImpl<Account>(dbContext);
+            var monthlySummaryRepository = new RepositoryImpl<MonthlySummary>(dbContext);
 
-            return new UnitOfWork(dbContext, categoryRepository, iconRepository, transactionRepository, userRepository, accountRepository);
+            return new UnitOfWork(dbContext, categoryRepository, iconRepository, transactionRepository, userRepository, accountRepository, monthlySummaryRepository);
         }
       
 

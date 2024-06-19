@@ -11,6 +11,7 @@ namespace FinTrack.Infrastructure.Data
         public DbSet<Icon> Icons { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<Transaction> Transactions { get; set; } = default!;
+        public DbSet<MonthlySummary> MonthlySummary { get; set; } = default!;
 
         public FinTrackDbContext(DbContextOptions options) : base(options)
         {
@@ -121,6 +122,28 @@ namespace FinTrack.Infrastructure.Data
             modelBuilder.Entity<Transaction>()
                .Property(x => x.Description)
                .HasMaxLength(100);
+
+            modelBuilder.Entity<MonthlySummary>()
+                .Property(c => c.AccountId)
+                .IsRequired();
+
+            modelBuilder.Entity<MonthlySummary>()
+                .Property(x => x.Balance)
+                .HasColumnType("Money")
+                .IsRequired()
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<MonthlySummary>()
+               .Property(x => x.Income)
+               .HasColumnType("Money")
+               .IsRequired()
+               .HasDefaultValue(0);
+
+            modelBuilder.Entity<MonthlySummary>()
+               .Property(x => x.Expenses)
+               .HasColumnType("Money")
+               .IsRequired()
+               .HasDefaultValue(0);
         }
     }
 }

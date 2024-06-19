@@ -13,12 +13,14 @@ namespace FinTrack.Application.Transactions.Commands
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CreateTransactionHandler> _logger;
         private readonly IMapper _mapper;
+        private readonly IMonthlySummaryService _monthlySummaryService;
 
-        public CreateTransactionHandler(IUnitOfWork unitOfWork, ILogger<CreateTransactionHandler> logger, IMapper mapper)
+        public CreateTransactionHandler(IUnitOfWork unitOfWork, ILogger<CreateTransactionHandler> logger, IMapper mapper, IMonthlySummaryService monthlySummaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
             _mapper = mapper;
+            _monthlySummaryService = monthlySummaryService;
         }
 
         public async Task<TransactionDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -27,26 +29,28 @@ namespace FinTrack.Application.Transactions.Commands
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var existingCategory = (await _unitOfWork.CategoryRepository.Get(request.CategoryId)) ??
-                    throw new InvalidOperationException($"Category with ID '{request.CategoryId}' was not found.");
+                var existingCategory = await _unitOfWork.CategoryRepository.Get(request.CategoryId)
+                    ?? throw new InvalidOperationException($"Category with ID '{request.CategoryId}' was not found.");
 
-                var account = await _unitOfWork.AccountRepository.Get(request.AccountId) ??
-                    throw new InvalidOperationException($"Account with ID '{request.AccountId}' was not found.");
+                var account = await _unitOfWork.AccountRepository.Get(request.AccountId)
+                    ?? throw new InvalidOperationException($"Account with ID '{request.AccountId}' was not found.");
 
-                if (request.TransactionType == TransactionType.Expense)
-                {
-                    account.Balance -= request.Amount;
-                }
-                else if (request.TransactionType == TransactionType.Income)
-                {
-                    account.Balance += request.Amount;
-                }
+                // Calculate transaction amount based on transaction type
+                decimal transactionAmount = request.TransactionType == TransactionType.Expense ? -request.Amount : request.Amount;
 
-                Transaction transaction = new(request.AccountId, request.Amount, request.Date,
+                // Create transaction entity
+                Transaction transaction = new Transaction(request.AccountId, request.Amount, request.Date,
                     request.Description, request.CategoryId, request.TransactionType);
 
                 var createdTransaction = await _unitOfWork.TransactionRepository.Add(transaction);
 
+                // Update account balance
+                account.Balance += transactionAmount;
+
+                // Update monthly summary
+                await _monthlySummaryService.UpdateMonthlySummary(request.AccountId, request.Date.Year, (Month)request.Date.Month, transactionAmount);
+
+                // Save changes
                 await _unitOfWork.SaveAsync();
                 await _unitOfWork.CommitTransactionAsync();
 

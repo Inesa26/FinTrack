@@ -39,17 +39,17 @@ namespace FinTrack.WebAPI.Controllers
            [FromQuery] string sortBy = "Date",
            [FromQuery] string sortOrder = "asc")
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var transactionUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (userId == null)
+            if (transactionUserId == null)
                 return Unauthorized();
 
-            var account = await _unitOfWork.AccountRepository.GetSingle(q => q.Where(a => a.UserId == userId));
-            if (account == null)
+            var transactionAccount = await _unitOfWork.AccountRepository.GetSingle(q => q.Where(a => a.UserId == transactionUserId));
+            if (transactionAccount == null)
                 return NotFound("Account not found for the user");
-            var query = new GetAllTransactionsQuery(account.Id, pageIndex, pageSize, sortBy, sortOrder);
-            var result = await _mediator.Send(query);
-            return Ok(result);
+            var query = new GetAllTransactionsQuery(transactionAccount.Id, pageIndex, pageSize, sortBy, sortOrder);
+            var transactionResult = await _mediator.Send(query);
+            return Ok(transactionResult);
         }
     
 

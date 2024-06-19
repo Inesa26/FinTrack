@@ -1,4 +1,5 @@
 ﻿using FinTrack.Application.Responses;
+using FinTrack.Domain.Enum;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,15 +7,16 @@ namespace FinTrack.Application.Transactions.Commands
 {
     public class UpdateTransactionCommand : IRequest<TransactionDto>
     {
-        public UpdateTransactionCommand(int transactionId, decimal amount, DateTime date, string description, int categoryId)
+        public UpdateTransactionCommand(int transactionId, decimal amount, DateTime date, string description, int categoryId, TransactionType transactionType)
         {
             TransactionId = transactionId;
             Amount = amount;
             Date = date;
             Description = description;
             CategoryId = categoryId;
+            TransactionType = transactionType;
         }
-      
+
         [Required(ErrorMessage = "TransactionId is required")]
         [Range(1, int.MaxValue, ErrorMessage = "TransactionId must be greater than 0")]
         public int TransactionId { get; set; }
@@ -33,5 +35,7 @@ namespace FinTrack.Application.Transactions.Commands
         [Range(1, int.MaxValue, ErrorMessage = "CategoryId must be greater than 0")]
         public int CategoryId { get; set; }
 
+        [Required(ErrorMessage = "TransactionType is required")]
+        public TransactionType TransactionType { get; set; }
     }
 }

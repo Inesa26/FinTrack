@@ -1,4 +1,5 @@
 using FinTrack.Application.Abstractions;
+using FinTrack.Application.Services;
 using FinTrack.Domain.Model;
 using FinTrack.Infrastructure;
 using FinTrack.Infrastructure.Data;
@@ -19,16 +20,18 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 });
 
 builder.Services
-    .AddSingleton<FinTrackDbContext>()
-    .AddSingleton<IRepository<Category>, RepositoryImpl<Category>>()
-    .AddSingleton<IRepository<Icon>, RepositoryImpl<Icon>>()
-    .AddSingleton<IRepository<Transaction>, RepositoryImpl<Transaction>>()
-    .AddSingleton<IRepository<Account>, RepositoryImpl<Account>>()
+    .AddScoped<FinTrackDbContext>()
+    .AddScoped<IRepository<Category>, RepositoryImpl<Category>>()
+    .AddScoped<IRepository<Icon>, RepositoryImpl<Icon>>()
+    .AddScoped<IRepository<Transaction>, RepositoryImpl<Transaction>>()
+    .AddScoped<IRepository<Account>, RepositoryImpl<Account>>()
+    .AddScoped<IRepository<MonthlySummary>, RepositoryImpl<MonthlySummary>>()
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUnitOfWork, UnitOfWork>()
     .AddScoped<IIdentityService, IdentityService>()
     .AddScoped<IUserAuthenticationService, UserAuthenticationService>()
     .AddScoped<ITokenService, TokenService>()
+    .AddScoped<IMonthlySummaryService, MonthlySummaryService>()
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IRepository<Category>).Assembly));
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
