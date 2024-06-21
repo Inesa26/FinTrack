@@ -17,6 +17,16 @@ namespace FinTrack.Application.Profiles
                           src => src.MapFrom(x => x.LastName))
                 .ForMember(dest => dest.Email,
                           src => src.MapFrom(x => x.Email));
+
+            CreateMap<ApplicationUser, UpdatedUserDto>()
+               .ForMember(dest => dest.Id,
+                          src => src.MapFrom(x => x.Id))
+               .ForMember(dest => dest.FirstName,
+                          src => src.MapFrom(x => x.FirstName))
+                .ForMember(dest => dest.LastName,
+                          src => src.MapFrom(x => x.LastName))
+                .ForMember(dest => dest.Email,
+                          src => src.MapFrom(x => x.Email));
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using FinTrack.Application.Abstractions;
 using FinTrack.Domain.Model;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace FinTrack.Infrastructure.Repositories
 {
@@ -9,7 +12,6 @@ namespace FinTrack.Infrastructure.Repositories
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
 
         public UserRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -60,7 +62,47 @@ namespace FinTrack.Infrastructure.Repositories
         public async Task<IEnumerable<Claim>> GetClaimsAsync(ApplicationUser user)
         {
             var result = await _userManager.GetClaimsAsync(user);
-            return result.ToList();
+            return result;
         }
+
+        public async Task UpdateUserAsync(ApplicationUser user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
+
+        public async Task ReplaceUserClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims)
+        {
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+
+            foreach (var claim in existingClaims)
+            {
+                await _userManager.RemoveClaimAsync(user, claim);
+            }
+
+            foreach (var claim in claims)
+            {
+                await _userManager.AddClaimAsync(user, claim);
+            }
+        }
+
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
+
+        public async Task SetPasswordAsync(ApplicationUser user, string newPassword)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception($"Failed to set new password: {string.Join(", ", result.Errors)}");
+            }
+        }
+
+
+
+
     }
 }

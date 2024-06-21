@@ -18,7 +18,9 @@ namespace FinTrack.Infrastructure.Services
             var identity = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName)
             });
 
             var token = _identityService.CreateSecurityToken(identity);

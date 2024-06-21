@@ -1,9 +1,12 @@
 ﻿using FinTrack.Application.Accounts.Commands;
+using FinTrack.Application.Accounts.Queries;
 using FinTrack.Application.Auth.Commands;
+using FinTrack.Application.Responses;
 using FinTrack.Application.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinTrack.WebAPI.Controllers
 {
@@ -49,6 +52,15 @@ namespace FinTrack.WebAPI.Controllers
                 return Unauthorized();
             }
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<AccountDto>> GetBalance([FromQuery] int accountId)
+        {
+            GetBalanceQuery query = new GetBalanceQuery { AccountId = accountId };
+            var balance = await _mediator.Send(query);
+            return Ok(balance);
         }
 
     }
