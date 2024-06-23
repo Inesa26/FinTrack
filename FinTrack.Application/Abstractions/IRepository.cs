@@ -1,6 +1,4 @@
 ﻿using FinTrack.Application.Common.Models;
-using FinTrack.Domain.Model;
-using System.Linq.Expressions;
 
 namespace FinTrack.Application.Abstractions
 {
@@ -14,9 +12,9 @@ namespace FinTrack.Application.Abstractions
         Task<List<T>> Filter(Func<IQueryable<T>, IQueryable<T>> filterFunc);
         Task<T?> GetSingle(Func<IQueryable<T>, IQueryable<T>> filterFunc);
 
-        Task<PaginatedResult<T>> GetPaginated(int pageIndex, 
-            int pageSize, 
-            Func<IQueryable<T>, 
+        Task<PaginatedResult<T>> GetPaginated(int pageIndex,
+            int pageSize,
+            Func<IQueryable<T>,
             IQueryable<T>> filterFunc = null);
     }
 }

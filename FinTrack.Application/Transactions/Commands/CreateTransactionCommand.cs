@@ -15,7 +15,6 @@ namespace FinTrack.Application.Transactions.Commands
             Description = description;
             CategoryId = categoryId;
             TransactionType = transactionType;
-
         }
 
         [Required]

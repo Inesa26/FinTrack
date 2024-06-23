@@ -5,7 +5,7 @@ namespace FinTrack.Application.Responses
     public class TransactionDto
     {
         public int Id { get; init; }
-        public int AccountId { get; init; } 
+        public int AccountId { get; init; }
         public decimal Amount { get; init; }
         public DateTime Date { get; init; }
         public string Description { get; set; }

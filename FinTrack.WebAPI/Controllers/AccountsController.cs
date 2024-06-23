@@ -6,7 +6,6 @@ using FinTrack.Application.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace FinTrack.WebAPI.Controllers
 {

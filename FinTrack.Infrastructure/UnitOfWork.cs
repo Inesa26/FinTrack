@@ -8,9 +8,13 @@ namespace FinTrack.Infrastructure
     {
         private readonly FinTrackDbContext _context;
 
-        public UnitOfWork(FinTrackDbContext context, IRepository<Category> categoryRepository,
-            IRepository<Icon> iconRepository, IRepository<Transaction> transactionRepository,
-            IUserRepository userRepository, IRepository<Account> accountRepository, IRepository<MonthlySummary> monthlySummaryRepository)
+        public UnitOfWork(FinTrackDbContext context, 
+                            IRepository<Category> categoryRepository,
+                            IRepository<Icon> iconRepository, 
+                            IRepository<Transaction> transactionRepository,
+                            IUserRepository userRepository, 
+                            IRepository<Account> accountRepository, 
+                            IRepository<MonthlySummary> monthlySummaryRepository)
         {
             _context = context;
             CategoryRepository = categoryRepository;

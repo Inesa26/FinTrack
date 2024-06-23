@@ -1,6 +1,7 @@
 ﻿using FinTrack.Domain.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FinTrack.Infrastructure.Data
 {
@@ -13,19 +14,20 @@ namespace FinTrack.Infrastructure.Data
         public DbSet<Transaction> Transactions { get; set; } = default!;
         public DbSet<MonthlySummary> MonthlySummary { get; set; } = default!;
 
-        public FinTrackDbContext(DbContextOptions options) : base(options)
-        {
-        }
+        private readonly IConfiguration _configuration;
 
-        public FinTrackDbContext()
+        public FinTrackDbContext(DbContextOptions<FinTrackDbContext> options, IConfiguration configuration)
+            : base(options)
         {
+            _configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FinTrack;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                var connectionString = _configuration.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.WebAPI", "FinTrack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.UnitTests", "FinTrack.UnitTests\FinTrack.UnitTests.csproj", "{E4340E90-4222-4CA8-B073-5EB9D982BEE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinTrack.IntegrationTests", "FinTrack.IntegrationTests\FinTrack.IntegrationTests.csproj", "{EFF16739-CBB2-41A1-A67F-65F4A240EC17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinTrack.IntegrationTests", "FinTrack.IntegrationTests\FinTrack.IntegrationTests.csproj", "{EFF16739-CBB2-41A1-A67F-65F4A240EC17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4C02A444-E8AC-4E38-B105-1F429BDF4AD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4340E90-4222-4CA8-B073-5EB9D982BEE1} = {4C02A444-E8AC-4E38-B105-1F429BDF4AD4}
+		{EFF16739-CBB2-41A1-A67F-65F4A240EC17} = {4C02A444-E8AC-4E38-B105-1F429BDF4AD4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83F60D1D-2333-4C39-A563-2D13AB735C60}

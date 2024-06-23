@@ -46,7 +46,9 @@ namespace FinTrack.WebAPI.Controllers
 
             var transactionAccount = await _unitOfWork.AccountRepository.GetSingle(q => q.Where(a => a.UserId == transactionUserId));
             if (transactionAccount == null)
+            {
                 return NotFound("Account not found for the user");
+            }
             var query = new GetAllTransactionsQuery(transactionAccount.Id, pageIndex, pageSize, sortBy, sortOrder);
             var transactionResult = await _mediator.Send(query);
             return Ok(transactionResult);
@@ -95,5 +97,30 @@ namespace FinTrack.WebAPI.Controllers
             await _mediator.Send(new DeleteTransactionCommand(id));
             return NoContent();
         }
+
+        [HttpGet("incomes")]
+        public async Task<ActionResult<List<IncomeExpensesDto>>> GetIncomesByYearAndMonth([FromQuery] int year, [FromQuery] int month, [FromQuery] int accountId)
+        {
+            var incomesQuery = new GetIncomesByYearAndMonthQuery(year, month, accountId);
+            var incomesResult = await _mediator.Send(incomesQuery);
+            return Ok(incomesResult);
+        }
+
+        [HttpGet("expenses")]
+        public async Task<ActionResult<List<IncomeExpensesDto>>> GetExpensesByYearAndMonth([FromQuery] int year, [FromQuery] int month, [FromQuery] int accountId)
+        {
+            var expenseQuery = new GetExpensesByYearAndMonthQuery(year, month, accountId);
+            var expenseResult = await _mediator.Send(expenseQuery);
+            return Ok(expenseResult);
+        }
+
+        [HttpGet("year-expenses")]
+        public async Task<ActionResult<List<IncomeExpensesDto>>> GetCategoryExpensesByYear([FromQuery] int year, [FromQuery] int accountId)
+        {
+            var query = new GetExpensesByYearQuery( year, accountId);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
     }
 }

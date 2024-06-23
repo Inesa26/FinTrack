@@ -15,7 +15,7 @@ namespace FinTrack.Application.Categories.Commands
             Type = type;
         }
 
-        [Required(ErrorMessage = "CategoryId is required")]
+        [Required(ErrorMessage = "Category Id is required")]
         [Range(1, int.MaxValue, ErrorMessage = "CategoryId must be greater than 0")]
         public int CategoryId { get; set; }
 
@@ -23,7 +23,7 @@ namespace FinTrack.Application.Categories.Commands
         [MaxLength(20, ErrorMessage = "Title cannot exceed 20 characters")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "IconId is required")]
+        [Required(ErrorMessage = "Icon Id is required")]
         [Range(1, int.MaxValue, ErrorMessage = "IconId must be greater than 0")]
         public int IconId { get; set; }
 

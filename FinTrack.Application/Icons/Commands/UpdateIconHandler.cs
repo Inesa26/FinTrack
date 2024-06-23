@@ -34,7 +34,7 @@ public class UpdateIconHandler : IRequestHandler<UpdateIconCommand, IconDto>
             await _unitOfWork.CommitTransactionAsync();
 
             _logger.LogInformation("Icon with ID {IconId} created successfully.", updatedIcon.Id);
-           return _mapper.Map<IconDto>(updatedIcon);
+            return _mapper.Map<IconDto>(updatedIcon);
         }
         catch (Exception ex)
         {

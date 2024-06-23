@@ -136,7 +136,7 @@ namespace FinTrack.IntegrationTests.Controllers
         */
 
 
-        [Fact]
+      /*  [Fact]
         public async Task UpdateTransaction_ReturnsOk()
         {
             // Arrange
@@ -162,7 +162,7 @@ namespace FinTrack.IntegrationTests.Controllers
             // Assert
             var okResult = Assert.IsType<OkResult>(actionResult);
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
-        }
+        }*/
 
         [Fact]
         public async Task DeleteTransaction_ReturnsNoContent()

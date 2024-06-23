@@ -10,6 +10,7 @@ using FinTrack.WebAPI.Extensions;
 using FinTrack.WebAPI.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +20,12 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
     loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
 });
 
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services
-    .AddScoped<FinTrackDbContext>()
+    .AddDbContext<FinTrackDbContext>(options =>
+        options.UseSqlServer(connectionString))
     .AddScoped<IRepository<Category>, RepositoryImpl<Category>>()
     .AddScoped<IRepository<Icon>, RepositoryImpl<Icon>>()
     .AddScoped<IRepository<Transaction>, RepositoryImpl<Transaction>>()

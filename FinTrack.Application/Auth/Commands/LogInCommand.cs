@@ -10,7 +10,7 @@ namespace FinTrack.Application.Auth.Commands
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
     }
 }

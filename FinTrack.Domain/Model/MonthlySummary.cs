@@ -11,6 +11,7 @@ namespace FinTrack.Domain.Model
         public decimal Income { get; set; } = 0.00m;
         public decimal Expenses { get; set; } = 0.00m;
         public decimal Balance { get; set; } = 0.00m;
+     
 
         public MonthlySummary(int accountId)
         {

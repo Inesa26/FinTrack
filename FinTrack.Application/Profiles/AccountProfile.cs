@@ -9,7 +9,7 @@ namespace FinTrack.Application.Profiles
         public AccountProfile()
         {
             CreateMap<Account, AccountDto>()
-                
+
                 .ForMember(dest => dest.UserId,
                            src => src.MapFrom(x => x.UserId))
                 .ForMember(dest => dest.Balance,

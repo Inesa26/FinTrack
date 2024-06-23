@@ -21,7 +21,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _loggerMock = new Mock<ILogger<UpdateTransactionHandler>>();
             _mapperMock = new Mock<IMapper>();
-            _handler = new UpdateTransactionHandler(_unitOfWorkMock.Object, _loggerMock.Object, _mapperMock.Object);
+            _handler = new UpdateTransactionHandler(_unitOfWorkMock.Object, _loggerMock.Object, _mapperMock.Object, null);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         {
             // Arrange
             DateTime date = DateTime.UtcNow;
-            var request = new UpdateTransactionCommand(1, 255.00m, date, "Test", 2);
+            var request = new UpdateTransactionCommand(1, 255.00m, date, "Test", 2, TransactionType.Expense);
             var existingTransaction = new Transaction(1, 300.00m, date, "Test", 1, TransactionType.Expense);
             var updatedTransaction = new Transaction(1, 255.00m, date, "Test", 2, TransactionType.Expense);
             var existingCategory = new Category("Social", TransactionType.Expense, 1);
@@ -68,7 +68,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         public async Task Handle_TransactionNotFound_ThrowsException()
         {
             // Arrange
-            var request = new UpdateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2);
+            var request = new UpdateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
 
             _unitOfWorkMock.Setup(uow => uow.TransactionRepository.Get(request.TransactionId)).ReturnsAsync((Transaction?)null);
 
@@ -81,7 +81,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
         public async Task Handle_CategoryNotFound_ThrowsException()
         {
             // Arrange
-            var request = new UpdateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2);
+            var request = new UpdateTransactionCommand(1, 255.00m, DateTime.UtcNow, "Test", 2, TransactionType.Expense);
             var existingTransaction = new Transaction(1, 300.00m, DateTime.UtcNow, "Test", 1, TransactionType.Expense);
 
             _unitOfWorkMock.Setup(uow => uow.TransactionRepository.Get(request.TransactionId)).ReturnsAsync(existingTransaction);

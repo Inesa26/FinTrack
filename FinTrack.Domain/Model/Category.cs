@@ -1,5 +1,4 @@
 ﻿using FinTrack.Domain.Enum;
-using System.Collections.Generic;
 
 namespace FinTrack.Domain.Model
 {
@@ -8,12 +7,14 @@ namespace FinTrack.Domain.Model
         public string Title { get; set; }
         public TransactionType Type { get; set; }
         public int IconId { get; set; }
+        public int AccoundId { get; set; }
         public virtual Icon? Icon { get; set; }
-        public virtual ICollection<Transaction>? transactions { get; set; }   
+        public virtual ICollection<Transaction>? Transactions { get; set; }
 
-        public Category(string title, TransactionType type, int iconId) {
+        public Category(string title, TransactionType type, int iconId)
+        {
             Title = title;
-            Type = type; 
+            Type = type;
             IconId = iconId;
         }
     }

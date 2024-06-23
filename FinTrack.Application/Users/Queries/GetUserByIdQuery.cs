@@ -1,5 +1,6 @@
 ﻿using FinTrack.Application.Responses;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinTrack.Application.Users.Queries
 {
@@ -9,7 +10,7 @@ namespace FinTrack.Application.Users.Queries
         {
             UserId = userId;
         }
-
+        [Required(ErrorMessage = "User ID is required")]
         public string UserId { get; set; }
     }
 }

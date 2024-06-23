@@ -64,7 +64,10 @@ namespace FinTrack.Application.Services
             var monthlySummary = await _unitOfWork.MonthlySummaryRepository
                 .GetSingle(query => query.Where(ms => ms.AccountId == accountId && ms.Year == year && ms.Month == month));
 
-            return _mapper.Map<MonthlySummaryDto>(monthlySummary);
+            return monthlySummary != null
+                ? _mapper.Map<MonthlySummaryDto>(monthlySummary)
+                : null;
         }
+
     }
 }

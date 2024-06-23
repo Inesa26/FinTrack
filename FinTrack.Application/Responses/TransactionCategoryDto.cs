@@ -1,9 +1,4 @@
 ﻿using FinTrack.Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinTrack.Application.Responses
 {
@@ -16,6 +11,5 @@ namespace FinTrack.Application.Responses
         public string Description { get; set; }
         public CategoryIconDto Category { get; set; }
         public TransactionType TransactionType { get; set; }
-
     }
 }

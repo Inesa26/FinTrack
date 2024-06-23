@@ -36,7 +36,7 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Pa
             foreach (var category in paginatedResult.Items)
             {
                 var categoryDto = _mapper.Map<CategoryIconDto>(category);
-                var icon = await _unitOfWork.IconRepository.Get(category.IconId); 
+                var icon = await _unitOfWork.IconRepository.Get(category.IconId);
 
                 categoryDto.Icon = _mapper.Map<IconDto>(icon);
                 categoryDtos.Add(categoryDto);
@@ -51,4 +51,3 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, Pa
         }
     }
 }
- 

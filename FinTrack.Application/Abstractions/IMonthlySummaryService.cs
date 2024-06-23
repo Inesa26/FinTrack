@@ -1,6 +1,5 @@
 ﻿using FinTrack.Application.Responses;
 using FinTrack.Domain.Enum;
-using FinTrack.Domain.Model;
 
 namespace FinTrack.Application.Abstractions
 {

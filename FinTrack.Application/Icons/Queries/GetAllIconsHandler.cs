@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FinTrack.Application.Abstractions;
 using FinTrack.Application.Common.Models;
-using FinTrack.Application.Icons.Commands;
 using FinTrack.Application.Responses;
 using MediatR;
 using Microsoft.Extensions.Logging;

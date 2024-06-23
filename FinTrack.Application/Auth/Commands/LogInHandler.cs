@@ -14,7 +14,7 @@ namespace FinTrack.Application.Auth.Commands
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public LogInHandler(ILogger<LogInHandler> logger, IUserAuthenticationService userAuthenticationService, 
+        public LogInHandler(ILogger<LogInHandler> logger, IUserAuthenticationService userAuthenticationService,
             ITokenService tokenService, IUnitOfWork unitOfWork)
         {
             _userAuthenticationService = userAuthenticationService;
@@ -26,7 +26,7 @@ namespace FinTrack.Application.Auth.Commands
         public async Task<LoginDto> Handle(LogInCommand request, CancellationToken cancellationToken)
         {
             var user = await _userAuthenticationService.AuthenticateAsync(request.Email, request.Password);
-            if (user == null) 
+            if (user == null)
             { return null; }
             Account account = await _unitOfWork.AccountRepository.GetSingle(q => q.Where(a => a.UserId == user.Id))
                 ?? throw new InvalidOperationException($"Account for user with ID '{user.Id}' was not found.");

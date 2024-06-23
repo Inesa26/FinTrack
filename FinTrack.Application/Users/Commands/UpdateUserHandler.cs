@@ -3,11 +3,7 @@ using FinTrack.Application.Abstractions;
 using FinTrack.Application.Responses;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FinTrack.Application.Users.Commands
 {
@@ -46,12 +42,12 @@ namespace FinTrack.Application.Users.Commands
 
                 await _unitOfWork.UserRepository.UpdateUserAsync(user);
 
-               
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.FirstName),
                     new Claim(ClaimTypes.Surname, user.LastName),
-                  
+
                 };
 
                 await _unitOfWork.UserRepository.ReplaceUserClaimsAsync(user, claims);

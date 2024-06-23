@@ -1,5 +1,6 @@
 ﻿using FinTrack.Application.Responses;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinTrack.Application.Icons.Commands
 {
@@ -10,6 +11,8 @@ namespace FinTrack.Application.Icons.Commands
             IconId = iconId;
         }
 
+        [Required(ErrorMessage = "Icon ID is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "IconId must be greater than 0")]
         public int IconId { get; set; }
     }
 

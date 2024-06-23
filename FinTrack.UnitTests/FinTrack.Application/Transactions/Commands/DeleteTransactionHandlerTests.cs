@@ -22,7 +22,7 @@ namespace FinTrack.UnitTests.FinTrack.Application.Transactions.Commands
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _loggerMock = new Mock<ILogger<DeleteTransactionHandler>>();
             _mapperMock = new Mock<IMapper>();
-            _handler = new DeleteTransactionHandler(_unitOfWorkMock.Object, _loggerMock.Object, _mapperMock.Object);
+            _handler = new DeleteTransactionHandler(_unitOfWorkMock.Object, _loggerMock.Object, _mapperMock.Object, null);
         }
 
         [Fact]

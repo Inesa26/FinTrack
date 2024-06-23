@@ -19,7 +19,7 @@ namespace FinTrack.Application.Profiles
                            src => src.MapFrom(x => x.Expenses))
                 .ForMember(dest => dest.Balance,
                            src => src.MapFrom(x => x.Balance));
-              
-            } 
+
+        }
     }
 }
